@@ -9,6 +9,7 @@ public class User implements Serializable{
 	private String name;
 	private int phone;
 	private String type;
+	private String isAvailable="true";
 	public String getName() {
 		return name;
 	}
@@ -27,7 +28,7 @@ public class User implements Serializable{
 	public void setType(String type) {
 		this.type = type;
 	}
-	private String isAvailable="true";
+
 	public String getId() {
 		return id;
 	}
@@ -50,7 +51,6 @@ public class User implements Serializable{
 		
 	}
 	public User(String id, String password, String name, int phone, String type) {
-		super();
 		this.id = id;
 		this.password = password;
 		this.name = name;

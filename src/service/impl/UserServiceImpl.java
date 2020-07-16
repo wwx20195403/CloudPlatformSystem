@@ -14,7 +14,6 @@ import service.UserService;
 
 
 public class UserServiceImpl implements UserService {
-
 	@Override
 	public boolean validate(String id, String password) {
 		FileUtils2<List<User>> fUtils = new FileUtils2<>();
@@ -53,12 +52,12 @@ public class UserServiceImpl implements UserService {
 					
 				}
 			}
-			list.add(user);
-			return true;
 		}		
 		//write data to file
+		list.add(user);
 		fUtils.writeData(list, "users.data");	
 		return true;
+
 }
 
 	@Override
@@ -74,6 +73,7 @@ public class UserServiceImpl implements UserService {
 			if(use.getIsAvailable().equals("true")) {
 				if(use.getId().equals(id)) {
 					use.setIsAvailable("false");
+					fUtils.writeData(list, "users.data");	
 					return true;
 				}
 			}
@@ -94,7 +94,6 @@ public class UserServiceImpl implements UserService {
 			for(User use : list) {
 			if(use.getIsAvailable().equals("true")) {
 				if(use.getId().equals(id)) {
-					use.setIsAvailable("false");
 					return use;
 				}
 			}
@@ -140,7 +139,7 @@ public class UserServiceImpl implements UserService {
 		if(list == null)
 		{
 			list = new ArrayList<>();
-
+			return list;
 		}
 		return list;
 	}

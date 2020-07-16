@@ -4,13 +4,15 @@ import java.io.IOException;
 import java.util.List;
 
 import entity.User;
+import factory.MyServiceFactory;
 import service.UserService;
 import service.impl.UserServiceImpl;
 
 public class UserController extends BaseController {
 	private UserService  userService;
-	public UserController() {
-		userService=new UserServiceImpl();
+	public UserController(String message) {
+		super(message);
+		userService=(UserService)MyServiceFactory.createService(message);
 	}
 	public boolean validate(String id,String password) {
 		return userService.validate(id, password);
