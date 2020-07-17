@@ -21,6 +21,7 @@ public class FileUtils2<E> {
 		FileInputStream fis = null;
 		ObjectInputStream ois = null;
 		try {
+			if(!f.exists())f.createNewFile();
 			fis = new FileInputStream(f);
 			ois = new ObjectInputStream(fis);
 			E root = (E)ois.readObject();
@@ -51,6 +52,7 @@ public class FileUtils2<E> {
 		File f = new File("src/files/"+filename);
 	    ObjectOutputStream oos = null;
 	    try {
+	    	if(!f.exists())f.createNewFile();
 			FileOutputStream fis = new FileOutputStream(f);
 			oos = new ObjectOutputStream(fis);
 			oos.writeObject(data);

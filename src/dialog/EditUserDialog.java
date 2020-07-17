@@ -40,8 +40,10 @@ public class EditUserDialog extends JDialog {
 
 	/**
 	 * Create the dialog.
+	 * @wbp.parser.constructor
 	 */
 	public EditUserDialog(JFrame frame,UserController userController) {
+		
 		super(frame,"创建新用户",true);
 		setBounds(100, 100, 352, 433);
 		getContentPane().setLayout(null);

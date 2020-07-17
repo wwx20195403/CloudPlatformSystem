@@ -17,6 +17,20 @@ public class Equipment implements Serializable  {
 	private String description;//描述
 	private String equiomentState;//闲置还是启动
 	private String isRent;//来源,租借还是自有
+	private String belong;
+	private String nowBelong;
+	public String getBelong() {
+		return belong;
+	}
+	public void setBelong(String belong) {
+		this.belong = belong;
+	}
+	public String getNowBelong() {
+		return nowBelong;
+	}
+	public void setNowBelong(String nowBelong) {
+		this.nowBelong = nowBelong;
+	}
 	private String isAvailable="true";
 	public String getIsAvailable() {
 		return isAvailable;
@@ -68,17 +82,10 @@ public class Equipment implements Serializable  {
 		Date date=new Date();
 		SimpleDateFormat s=new SimpleDateFormat( "yyyyMMddHHmmssSS");
 		this.id="DNO"+s.format(date);
+		equiomentState="关闭中";
 	};
-	public Equipment(String name, String type, String specifications, String description,
-			String equiomentState, String isRent) {
-		this();
-		this.name = name;
-		this.type = type;
-		this.specifications = specifications;
-		this.description = description;
-		this.equiomentState = equiomentState;
-		this.isRent = isRent;
-	}
+	
+	
 	
 	
 

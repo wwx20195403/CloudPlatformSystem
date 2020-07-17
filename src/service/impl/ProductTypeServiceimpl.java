@@ -19,7 +19,7 @@ public class ProductTypeServiceimpl implements ProductTypeService {
 		if(list == null)
 		{
 			list = new ArrayList<>();
-
+ 
 		}else {
 			for(ProductType protypes : list) {
 				if(protypes.getIsAvailable().equals("true")) {

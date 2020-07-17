@@ -5,28 +5,29 @@ import java.util.List;
 
 import entity.EquipmentType;
 import factory.MyServiceFactory;
+import service.EquipmentTypeService;
 
 public class EquipmentTypeController extends BaseController {
-	private EquipmentTypeController equipmentTypeController;
+	private EquipmentTypeService equipmentTypeService;
 	public EquipmentTypeController(String message) {
 		super(message);
 		// TODO Auto-generated constructor stub
-		equipmentTypeController=(EquipmentTypeController)MyServiceFactory.createService(message);
+		equipmentTypeService=(EquipmentTypeService)MyServiceFactory.createService(message);
 	}
 	public boolean addEquipmentType(EquipmentType equtype) throws IOException{
-		return equipmentTypeController.addEquipmentType(equtype);
+		return equipmentTypeService.addEquipmentType(equtype);
 	}
-	public boolean deleteEquipmentType(String id) throws IOException{
-		return equipmentTypeController.deleteEquipmentType(id);
+	public boolean deleteEquipmentType(String name) throws IOException{
+		return equipmentTypeService.deleteEquipmentType(name);
 	}
 	public boolean changeEquipmentType(EquipmentType equtype) throws IOException{
-		return equipmentTypeController.changeEquipmentType(equtype);
+		return equipmentTypeService.changeEquipmentType(equtype);
 	}
 	public EquipmentType searchEquipmentType(String name) throws IOException{
-		return equipmentTypeController.searchEquipmentType(name);
+		return equipmentTypeService.searchEquipmentType(name);
 	}
 	public List<EquipmentType> showEquipmentType() throws IOException{
-		return equipmentTypeController.showEquipmentType();
+		return equipmentTypeService.showEquipmentType();
 	}
 
 }

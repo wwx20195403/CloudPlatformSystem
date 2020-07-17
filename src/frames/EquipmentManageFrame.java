@@ -28,7 +28,7 @@ public class EquipmentManageFrame extends JFrame {
    if (instance == null) {  
        instance = new EquipmentManageFrame();  
    }  
-   return instance;  
+   return instance; 
    } 
 	private DefaultTableModel equipmentmodel=new DefaultTableModel();
 	private JTable equipments=new JTable(equipmentmodel){

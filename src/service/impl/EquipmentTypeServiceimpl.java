@@ -69,6 +69,7 @@ public class EquipmentTypeServiceimpl implements EquipmentTypeService {
 			list = new ArrayList<>();
 
 		}else {
+			if(isMore(equtype.getName()))return false;
 			for(EquipmentType equtypes : list) {
 				if(equtypes.getIsAvailable().equals("true")) {
 					if(equtypes.getSerialNumber().equals(equtype.getSerialNumber())) {
@@ -80,9 +81,9 @@ public class EquipmentTypeServiceimpl implements EquipmentTypeService {
 					}
 				}
 			}
+		
 		}
 		return false;
-		
 	}
 
 	@Override
@@ -117,6 +118,27 @@ public class EquipmentTypeServiceimpl implements EquipmentTypeService {
 
 		}
 		return list;
+	}
+	
+	private boolean isMore(String name) {
+		FileUtils2<List<EquipmentType>> fUtils = new FileUtils2<>();
+		List<EquipmentType> list = fUtils.getData("equipmentType.data");
+		
+		//update data
+		if(list == null)
+		{
+			list = new ArrayList<>();
+
+		}else {
+			for(EquipmentType equtypes : list) {
+				if(equtypes.getIsAvailable().equals("true")) {
+					if(equtypes.getName().equals(name)){
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 	
 }
