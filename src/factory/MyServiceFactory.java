@@ -1,8 +1,7 @@
 package factory;
 
 import service.BaseService;
-import service.impl.EquipmentServiceimpl;
-import service.impl.UserServiceImpl;
+import service.impl.*;
 
 public class MyServiceFactory {
 	 public static BaseService createService(String message) {
@@ -11,10 +10,19 @@ public class MyServiceFactory {
 			
 	    	if ("EquipmentService".equals(message))
 	    		baseService = new EquipmentServiceimpl();
-	    	
-	    	
+	    	 	
 	    	if ("UserService".equals(message))
 	    		baseService = new UserServiceImpl();
+
+	    	if ("EquipmentTypeService".equals(message))
+	    		baseService = new EquipmentTypeServiceimpl();
+	    	
+	    	if ("ProductService".equals(message))
+	    		baseService = new ProductServiceimpl();
+	    	
+	    	if ("ProductTypeService".equals(message))
+	    		baseService = new ProductTypeServiceimpl();
+	    	
 	    	
 	        return baseService;
 		}

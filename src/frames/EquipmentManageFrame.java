@@ -35,7 +35,7 @@ public class EquipmentManageFrame extends JFrame {
 		public boolean isCellEditable(int rowIndex, int ColIndex){
 		     return false;
 			}
-   } ; 
+   }; 
 	private JPanel contentPane;
 	private JScrollPane equipmentScroll;
 	private List<Equipment> equipmentList=null;

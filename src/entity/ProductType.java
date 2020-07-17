@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class EquipmentType implements Serializable{
+public class ProductType implements Serializable {
 	private String serialNumber;
 	private String name;
 	private int isQuote;
@@ -30,15 +30,14 @@ public class EquipmentType implements Serializable{
 	public void setIsQuote(int isQuote) {
 		this.isQuote = isQuote;
 	}
-	public EquipmentType(String name) {
+	public ProductType(String name) {
 		this();
 		this.name = name;
 		this.isQuote = 0;
 	}
-	public EquipmentType() {
+	public ProductType() {
 		Date date=new Date();
 		SimpleDateFormat s=new SimpleDateFormat( "yyyyMMddHHmmssSS");
 		this.serialNumber=s.format(date);
 	}
-	
 }

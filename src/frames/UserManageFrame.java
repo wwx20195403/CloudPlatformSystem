@@ -23,6 +23,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import controllers.UserController;
+import dialog.EditUserDialog;
 import entity.User;
 import javax.swing.JButton;
 
