@@ -10,5 +10,5 @@ public class BaseController {
 	public BaseController(String message)
 	{
 		baseService = MyServiceFactory.createService(message);
-	}
+	} 
 }

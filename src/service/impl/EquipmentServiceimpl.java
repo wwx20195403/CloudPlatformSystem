@@ -20,7 +20,7 @@ public class EquipmentServiceimpl implements EquipmentService {
 		if(list == null)
 		{
 			list = new ArrayList<>();
-
+ 
 		}	
 		//write data to file
 		list.add(equip);

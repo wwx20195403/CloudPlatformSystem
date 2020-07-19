@@ -12,7 +12,7 @@ public class EquipmentController extends BaseController {
 	private EquipmentService  equipmentService=null;
 	public EquipmentController(String message) {
 		super(message);
-		equipmentService=(EquipmentService)MyServiceFactory.createService(message);
+	 	equipmentService=(EquipmentService)MyServiceFactory.createService(message);
 	}
 	public boolean addEquipment(Equipment equips) throws IOException{
 		return equipmentService.addEquipment(equips);

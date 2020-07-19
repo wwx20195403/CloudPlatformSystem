@@ -45,7 +45,7 @@ public class ProductServiceimpl implements ProductService {
 					pro.setIsAvailable("false");
 					fUtils.writeData(list, "products.data");	
 					new ProductTypeServiceimpl().setIsQuote(pro.getType(), "false");
-					return true;
+		 			return true;
 				}
 			}
 		}

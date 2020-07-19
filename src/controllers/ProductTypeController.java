@@ -16,7 +16,7 @@ public class ProductTypeController extends BaseController {
 		productTypeService=(ProductTypeService)MyServiceFactory.createService(message);
 	}
 	public boolean addProductType(ProductType protype) throws IOException{
-		return productTypeService.addProductType(protype);
+	 	return productTypeService.addProductType(protype);
 	}
 	public boolean deleteProductType(String id) throws IOException{
 		return productTypeService.deleteProductType(id);

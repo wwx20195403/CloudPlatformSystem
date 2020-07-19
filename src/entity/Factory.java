@@ -26,7 +26,7 @@ public class Factory implements Serializable {
 	}
 	public void setIntroduction(String introduction) {
 		this.introduction = introduction;
-	}
+	} 
 	public String getUsername() {
 		return username;
 	}

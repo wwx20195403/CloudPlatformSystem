@@ -25,7 +25,7 @@ public class EditProductTypeDialog extends JDialog {
 
 	/**
 	 * Create the dialog.
-	 */
+	 */ 
 	
 	public EditProductTypeDialog(JFrame jframe,ProductTypeController productTypeController,ProductType productType) {
 		super(jframe,null,true);

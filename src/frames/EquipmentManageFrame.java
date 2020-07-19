@@ -52,7 +52,7 @@ public class EquipmentManageFrame extends JFrame {
 	private JToolBar toolBar ;
 	private JButton btnNewButton_2;
 	private JButton btnNewButton_3;
-	private JTextField textField;
+	private JTextField textField; 
 	/**
 	 * Launch the application.
 	 */

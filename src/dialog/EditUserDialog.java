@@ -29,7 +29,7 @@ public class EditUserDialog extends JDialog {
 	private User user;
 	private JTextField textField_4;
 	private JTextField textField_5;
-	
+	 
 	/**
 	 * Launch the application.
 	 */

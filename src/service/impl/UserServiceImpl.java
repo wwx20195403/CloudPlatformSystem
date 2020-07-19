@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
 		if(list == null)
 		{
 			list = new ArrayList<>();
-
+ 
 		}else {
 			for(User use : list) {
 				if(user.getId().equals(use.getId())) {

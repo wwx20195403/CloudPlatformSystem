@@ -67,7 +67,7 @@ public class UserManageFrame extends JFrame {
 		});
 	}
  
-	/**
+	/** 
 	 * Create the frame.
 	 */
 	private UserManageFrame() {

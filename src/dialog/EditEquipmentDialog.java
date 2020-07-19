@@ -25,7 +25,7 @@ import javax.swing.JOptionPane;
 
 
 public class EditEquipmentDialog extends JDialog {
-
+ 
 	private JTextField E_name;
 	private JTextField E_sp;
 	private JTextField textField_3;

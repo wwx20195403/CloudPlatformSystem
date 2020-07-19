@@ -54,7 +54,7 @@ public class EquipmentTypeManageFrame extends JFrame {
 	private JButton btnNewButton_2;
 	private JButton btnNewButton_3;
 	private JTextField textField;
-
+ 
 	/**
 	 * Launch the application.
 	 */

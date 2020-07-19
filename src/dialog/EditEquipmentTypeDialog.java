@@ -23,7 +23,7 @@ public class EditEquipmentTypeDialog extends JDialog {
 	private EquipmentTypeController Controller;
 	private EquipmentType equ;
 
-	/**
+	/** 
 	 * Create the dialog.
 	 * @wbp.parser.constructor
 	 */

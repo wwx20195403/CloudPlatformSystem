@@ -66,7 +66,7 @@ public class ProductTypeManageFrame extends JFrame {
 	private JButton btnNewButton_2;
 	private JButton btnNewButton_3;
 	private JTextField textField;
-	/**
+	/** 
 	 * Create the frame.
 	 */
 	public ProductTypeManageFrame() {

@@ -15,7 +15,7 @@ public class FactoryControllers extends BaseController {
 		factoryService=(FactoryService)MyServiceFactory.createService(message);
 	}
 	public List<Factory> showFactory() throws IOException{
-		return factoryService.showFactory();
+	 	return factoryService.showFactory();
 	}
 	public boolean changeFactorystate(String userID) throws IOException{
 		return factoryService.changeFactorystate(userID);

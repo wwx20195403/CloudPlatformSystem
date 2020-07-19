@@ -27,7 +27,7 @@ public class Product implements Serializable{
 		this.type = type;
 		this.specifications = specifications;
 		this.description = description;
-	}
+	} 
 	public String getId() {
 		return id;
 	}

@@ -9,7 +9,7 @@ public class Equipment implements Serializable  {
 //		Equipment e2=new Equipment("", "", "", "", "", "");
 //		System.out.println(e1.getId());
 //		System.out.println(e2.getId());
-//	}
+//	} 
 	private String id;
 	private String name;
 	private String type;

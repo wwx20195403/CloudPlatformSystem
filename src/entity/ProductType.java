@@ -29,7 +29,7 @@ public class ProductType implements Serializable {
 	}
 	public void setIsQuote(String a) {
 		if(a.equals("true")) {
-			isQuote++;
+			isQuote++; 
 		}else {
 			isQuote--;
 		}

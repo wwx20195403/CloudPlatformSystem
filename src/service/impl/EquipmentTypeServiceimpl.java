@@ -26,7 +26,7 @@ public class EquipmentTypeServiceimpl implements EquipmentTypeService {
 					if(equtypes.getName().equals(equtype.getName())) {
 						return false;
 					}
-				}
+				} 
 			}
 		}
 		list.add(equtype);

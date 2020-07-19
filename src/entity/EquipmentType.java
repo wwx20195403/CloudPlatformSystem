@@ -22,7 +22,7 @@ public class EquipmentType implements Serializable{
 		return name;
 	}
 	public void setName(String name) {
-		this.name = name;
+		this.name = name; 
 	}
 	public int getIsQuote() {
 		return isQuote;

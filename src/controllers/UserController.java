@@ -15,7 +15,7 @@ public class UserController extends BaseController {
 		userService=(UserService)MyServiceFactory.createService(message);
 	}
 	public boolean validate(String id,String password) {
-		return userService.validate(id, password);
+ 		return userService.validate(id, password);
 	}
 	public boolean deleteUser(String id) throws IOException{
 		return userService.deleteUser(id);
@@ -25,7 +25,7 @@ public class UserController extends BaseController {
 	}
 	public User searchUser(String id) throws IOException{
 		return userService.searchUser(id);
-	}
+	} 
 	public boolean changeUser(User user) throws IOException{
 		return userService.changeUser(user);
 	}

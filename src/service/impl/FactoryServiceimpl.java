@@ -39,7 +39,7 @@ public class FactoryServiceimpl implements FactoryService {
 							fac.setFctorystate("开启");
 						}else {
 							fac.setFctorystate("关停");
-						}
+			 			}
 						return true;
 					}
 				}

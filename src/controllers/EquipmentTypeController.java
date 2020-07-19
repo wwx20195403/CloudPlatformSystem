@@ -11,7 +11,7 @@ public class EquipmentTypeController extends BaseController {
 	private EquipmentTypeService equipmentTypeService;
 	public EquipmentTypeController(String message) {
 		super(message);
-		// TODO Auto-generated constructor stub
+	 	// TODO Auto-generated constructor stub
 		equipmentTypeService=(EquipmentTypeService)MyServiceFactory.createService(message);
 	}
 	public boolean addEquipmentType(EquipmentType equtype) throws IOException{

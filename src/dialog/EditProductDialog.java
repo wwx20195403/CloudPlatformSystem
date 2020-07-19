@@ -29,7 +29,7 @@ public class EditProductDialog extends JDialog {
 	private JComboBox<String> comboBox;
 	private ProductTypeController et=new ProductTypeController("ProductTypeService");
 	private Product pro;
-	/**
+	/** 
 	 * Create the dialog.
 	 */
 	public EditProductDialog(JFrame frame,Productcontrollers productController,Product pros) {

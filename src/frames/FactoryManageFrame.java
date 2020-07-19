@@ -1,4 +1,4 @@
-package frames;
+ package frames;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -54,7 +54,7 @@ public class FactoryManageFrame extends JFrame {
 	private JToolBar toolBar ;
 	private JTextField textField;
 
-	
+	 
 	/**
 	 * Launch the application.
 	 */

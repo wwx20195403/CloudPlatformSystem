@@ -29,7 +29,7 @@ public class User implements Serializable{
 		this.phone = phone;
 		this.type = type;
 		FacName = facName;
-		Facdes = facdes;
+		Facdes = facdes; 
 	}
 	public void setFacName(String facName) {
 		FacName = facName;
