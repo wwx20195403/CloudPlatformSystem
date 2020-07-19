@@ -1,6 +1,8 @@
 package entity;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class User implements Serializable{
 	private static final long serialVersionUID = 1L;
@@ -10,6 +12,34 @@ public class User implements Serializable{
 	private int phone;
 	private String type;
 	private String isAvailable="true";
+	private String userNumber;
+	private String FacName;
+	private String Facdes;
+	public String getUserNumber() {
+		return userNumber;
+	}
+	public String getFacName() {
+		return FacName;
+	}
+	public User(String id, String password, String name, int phone, String type, String facName, String facdes) {
+		super();
+		this.id = id;
+		this.password = password;
+		this.name = name;
+		this.phone = phone;
+		this.type = type;
+		FacName = facName;
+		Facdes = facdes;
+	}
+	public void setFacName(String facName) {
+		FacName = facName;
+	}
+	public String getFacdes() {
+		return Facdes;
+	}
+	public void setFacdes(String facdes) {
+		Facdes = facdes;
+	}
 	public String getName() {
 		return name;
 	}
@@ -48,15 +78,11 @@ public class User implements Serializable{
 		this.isAvailable = isAvailable;
 	}
 	public  User() {
-		
+		Date date=new Date();
+		SimpleDateFormat s=new SimpleDateFormat( "yyyyMMddHHmmssSS");
+		this.userNumber="Us"+s.format(date);
 	}
-	public User(String id, String password, String name, int phone, String type) {
-		this.id = id;
-		this.password = password;
-		this.name = name;
-		this.phone = phone;
-		this.type = type;
-	}
+
 
 }
 

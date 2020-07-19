@@ -106,7 +106,7 @@ public class UserManageFrame extends JFrame {
 		toolBar.add(textField);
 		toolBar.add(btnNewButton_3);
 		btnNewButton.addActionListener( (e)->{
-			EditUserDialog a=new EditUserDialog(UserManageFrame.getInstance(),userController);
+			EditUserDialog a=new EditUserDialog(UserManageFrame.getInstance(),userController,null);
 			a.addWindowListener(new WindowAdapter(){
 				@Override
 				public void windowClosed(WindowEvent e) {

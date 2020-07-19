@@ -23,6 +23,9 @@ public class MyServiceFactory {
 	    	if ("ProductTypeService".equals(message))
 	    		baseService = new ProductTypeServiceimpl();
 	    	
+	    	if ("FactoryService".equals(message))
+	    		baseService = new FactoryServiceimpl();
+	    	
 	    	
 	        return baseService;
 		}

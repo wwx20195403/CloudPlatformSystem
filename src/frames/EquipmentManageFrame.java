@@ -28,7 +28,6 @@ import entity.Equipment;
 import entity.EquipmentType;
 
 
-
 public class EquipmentManageFrame extends JFrame {
 
 	 private static EquipmentManageFrame instance;

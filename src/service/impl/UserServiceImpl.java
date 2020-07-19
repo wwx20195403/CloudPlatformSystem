@@ -37,7 +37,6 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		FileUtils2<List<User>> fUtils = new FileUtils2<>();
 		List<User> list = fUtils.getData("users.data");
-		
 		//update data
 		if(list == null)
 		{
@@ -55,6 +54,8 @@ public class UserServiceImpl implements UserService {
 		}		
 		//write data to file
 		list.add(user);
+		System.out.println(user.getFacName());
+		if(user.getFacName()!=" "){new FactoryServiceimpl().createFactory(user);}
 		fUtils.writeData(list, "users.data");	
 		return true;
 
@@ -72,9 +73,12 @@ public class UserServiceImpl implements UserService {
 		for(User use : list) {
 			if(use.getIsAvailable().equals("true")) {
 				if(use.getId().equals(id)) {
-					use.setIsAvailable("false");
-					fUtils.writeData(list, "users.data");	
-					return true;
+					if(	new FactoryServiceimpl().deleteFactory(use.getUserNumber())) {
+						use.setIsAvailable("false");						
+						fUtils.writeData(list, "users.data");	
+						return true;
+					}
+				
 				}
 			}
 		}
@@ -114,15 +118,18 @@ public class UserServiceImpl implements UserService {
 
 		}else {
 			for(User use : list) {
-				if(user.getId().equals(use.getId())) {
-					if(use.getIsAvailable().equals("true")) {
-						use.setId(user.getId());
+				if(use.getIsAvailable().equals("true")) {
+					if(user.getId().equals(use.getId())) {
+					if(new FactoryServiceimpl().changeFactory(use)) {
 						use.setName(user.getName());
 						use.setPassword(user.getPassword());
 						use.setPhone(user.getPhone());
 						use.setType(use.getType());
-						fUtils.writeData(list, "users.data");	
+						use.setFacdes(user.getFacdes());
+						fUtils.writeData(list, "users.data");
+										
 						return true;
+					}
 					}
 					
 				}

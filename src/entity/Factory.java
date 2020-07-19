@@ -59,14 +59,12 @@ public class Factory implements Serializable {
 	}
 	
 	
-	public Factory(String name, String introduction, String username, String userId, String fctorystate,
-			String userNumber) {
+	public Factory(String name, String introduction, String username, String userId,String userNumber) {
 		this();
 		this.name = name;
 		this.introduction = introduction;
 		this.username = username;
 		this.userId = userId;
-		this.fctorystate = fctorystate;
 		UserNumber = userNumber;
 	}
 	

@@ -112,7 +112,6 @@ public class ProductServiceimpl implements ProductService {
 		if(list == null)
 		{
 			list = new ArrayList<>();
-			return list;
 		}
 		return list;
 	}

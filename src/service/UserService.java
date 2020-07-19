@@ -5,6 +5,7 @@ import java.util.List;
 
 import entity.User;
 
+
 public interface UserService extends BaseService {
 	public boolean validate(String id,String password);
 	public boolean deleteUser(String id) throws IOException;
