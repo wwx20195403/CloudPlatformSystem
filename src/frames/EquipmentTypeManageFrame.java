@@ -112,7 +112,7 @@ public class EquipmentTypeManageFrame extends JFrame {
 		updateEquipmentTypeList();
 		btnNewButton.addActionListener((e)->{
 			EditEquipmentTypeDialog a=new EditEquipmentTypeDialog(EquipmentManageFrame.getInstance(), equipmentTypeController);
-			a.addWindowListener(new 	WindowAdapter() {
+			a.addWindowListener(new WindowAdapter() {
 				@Override
 				public void windowClosed(WindowEvent e) {
 					// TODO Auto-generated method stub
@@ -161,6 +161,9 @@ public class EquipmentTypeManageFrame extends JFrame {
 	
 	}
 	
+	public static void updateEquipmentTypeList_1() {
+		getInstance().updateEquipmentTypeList();
+	}
 
 	public void updateEquipmentTypeList() {
 		try {
@@ -205,7 +208,9 @@ public class EquipmentTypeManageFrame extends JFrame {
 	private void onDelete()
 	{
 		// 获取选中的行的索引
-		int[] rows = equipmentTypes.getSelectedRows();
+		int[] rows=null;
+		rows = equipmentTypes.getSelectedRows();
+		System.out.println(rows.length);
 		if(rows.length == 0)return;
 				
 		// 弹出对话框确认

@@ -22,11 +22,6 @@ public class EditEquipmentTypeDialog extends JDialog {
 	private JTextField textField;
 	private EquipmentTypeController Controller;
 	private EquipmentType equ;
-	
-	/**
-	 * Launch the application.
-	 */
-
 
 	/**
 	 * Create the dialog.

@@ -5,27 +5,32 @@ import java.util.List;
 
 import entity.ProductType;
 import factory.MyServiceFactory;
+import service.ProductService;
+import service.ProductTypeService;
 
 public class ProductTypeController extends BaseController {
-	private ProductTypeController productTypeController;
+	private ProductTypeService  productTypeService;
 	public ProductTypeController(String message) {
 		super(message);
 		// TODO Auto-generated constructor stub
-		productTypeController=(ProductTypeController)MyServiceFactory.createService(message);
+		productTypeService=(ProductTypeService)MyServiceFactory.createService(message);
 	}
 	public boolean addProductType(ProductType protype) throws IOException{
-		return productTypeController.addProductType(protype);
+		return productTypeService.addProductType(protype);
 	}
 	public boolean deleteProductType(String id) throws IOException{
-		return productTypeController.deleteProductType(id);
+		return productTypeService.deleteProductType(id);
 	}
 	public boolean changeProductType(ProductType protype) throws IOException{
-		return productTypeController.changeProductType(protype);
+		return productTypeService.changeProductType(protype);
 	}
 	public ProductType searchProductType(String name) throws IOException{
-		return productTypeController.searchProductType(name);
+		return productTypeService.searchProductType(name);
 	}
 	public List<ProductType> showProductType() throws IOException{
-		return productTypeController.showProductType();
+		return productTypeService.showProductType();
+	}
+	public boolean setIsQuote(String name,String style)throws IOException{
+		return productTypeService.setIsQuote(name, style);
 	}
 }

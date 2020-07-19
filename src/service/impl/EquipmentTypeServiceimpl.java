@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import entity.EquipmentType;
+import entity.ProductType;
 import service.EquipmentTypeService;
 import utils.FileUtils2;
 
@@ -73,7 +74,7 @@ public class EquipmentTypeServiceimpl implements EquipmentTypeService {
 			for(EquipmentType equtypes : list) {
 				if(equtypes.getIsAvailable().equals("true")) {
 					if(equtypes.getSerialNumber().equals(equtype.getSerialNumber())) {
-						if(equtype.getIsQuote()==0) {
+						if((new EquipmentServiceimpl()).changeEquipmentType(equtypes.getName(), equtype.getName())) {
 							equtypes.setName(equtype.getName());
 							fUtils.writeData(list, "equipmentType.data");	
 							return true;
@@ -134,6 +135,30 @@ public class EquipmentTypeServiceimpl implements EquipmentTypeService {
 				if(equtypes.getIsAvailable().equals("true")) {
 					if(equtypes.getName().equals(name)){
 						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public boolean setIsQuote(String name, String style) throws IOException {
+		// TODO Auto-generated method stub
+		FileUtils2<List<EquipmentType>> fUtils = new FileUtils2<>();
+		List<EquipmentType> list = fUtils.getData("equipmentType.data");
+		if(list == null)
+		{
+			list = new ArrayList<>();
+
+		}else {
+			for(EquipmentType equtypes : list) {
+				if(equtypes.getIsAvailable().equals("true")) {
+					if(equtypes.getName().equals(name)) {
+						equtypes.setIsQuote(style);
+							fUtils.writeData(list, "equipmentType.data");	
+							return true;
+						
 					}
 				}
 			}

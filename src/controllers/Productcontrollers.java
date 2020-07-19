@@ -22,7 +22,7 @@ public class Productcontrollers extends BaseController {
 	public boolean changeProduct(Product pro) throws IOException{
 		return productService.changeProduct(pro);
 	}
-	public Product searchEquipment(String id) throws IOException{
+	public Product searchProduct(String id) throws IOException{
 		return productService.searchProduct(id);
 	}
 	public List<Product> showProduct() throws IOException{

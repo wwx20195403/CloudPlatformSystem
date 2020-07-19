@@ -12,4 +12,5 @@ public interface EquipmentTypeService extends BaseService {
 	public boolean changeEquipmentType(EquipmentType equtype) throws IOException ;
 	public EquipmentType searchEquipmentType(String name) throws IOException;
 	public List<EquipmentType> showEquipmentType() throws IOException;
+	public boolean setIsQuote(String name,String style)throws IOException;
 }

@@ -26,6 +26,7 @@ public class ProductServiceimpl implements ProductService {
 		//write data to file
 		list.add(pro);
 		fUtils.writeData(list, "products.data");	
+		new ProductTypeServiceimpl().setIsQuote(pro.getType(), "true");
 		return true;
 	}
 
@@ -43,6 +44,7 @@ public class ProductServiceimpl implements ProductService {
 				if(pro.getId().equals(id)) {
 					pro.setIsAvailable("false");
 					fUtils.writeData(list, "products.data");	
+					new ProductTypeServiceimpl().setIsQuote(pro.getType(), "false");
 					return true;
 				}
 			}
@@ -65,6 +67,8 @@ public class ProductServiceimpl implements ProductService {
 			for(Product pros : list) {
 				if(pros.getId().equals(pro.getId())) {
 					if(pros.getIsAvailable().equals("true")) {	
+						new ProductTypeServiceimpl().setIsQuote(pros.getType(), "false");
+						new ProductTypeServiceimpl().setIsQuote(pro.getType(), "true");
 						pros.setDescription(pro.getDescription());
 						pros.setName(pros.getName());
 						pros.setSpecifications(pros.getSpecifications());
@@ -112,5 +116,25 @@ public class ProductServiceimpl implements ProductService {
 		}
 		return list;
 	}
+	
+	public boolean changeProductType(String oldtype,String newtype) {
+		FileUtils2<List<Product>> fUtils = new FileUtils2<>();
+		List<Product> list = fUtils.getData("products.data");
+		if(list == null)
+		{
+			list = new ArrayList<>();
+		}else{
+			for(Product pro : list) {
+			if(pro.getIsAvailable().equals("true")) {
+				if(pro.getType().equals(oldtype)) {
+					pro.setType(newtype);
 
+				}
+			}
+		}
+			fUtils.writeData(list, "products.data");	
+			return true;
+		}
+		return false;
+	}
 }

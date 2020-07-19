@@ -24,6 +24,7 @@ public class EquipmentServiceimpl implements EquipmentService {
 		}	
 		//write data to file
 		list.add(equip);
+		new EquipmentTypeServiceimpl().setIsQuote(equip.getType(), "true");
 		fUtils.writeData(list, "equipments.data");	
 		return true;
 	}
@@ -40,6 +41,7 @@ public class EquipmentServiceimpl implements EquipmentService {
 			if(equip.getIsAvailable().equals("true")) {
 				if(equip.getId().equals(id)) {
 					equip.setIsAvailable("false");
+					new EquipmentTypeServiceimpl().setIsQuote(equip.getType(), "false");
 					fUtils.writeData(list, "equipments.data");	
 					return true;
 				}
@@ -62,7 +64,9 @@ public class EquipmentServiceimpl implements EquipmentService {
 		}else {
 			for(Equipment equips : list) {
 				if(equips.getId().equals(equip.getId())) {
-					if(equips.getIsAvailable().equals("true")) {	
+					if(equips.getIsAvailable().equals("true")) {
+						new EquipmentTypeServiceimpl().setIsQuote(equips.getType(), "false");
+						new EquipmentTypeServiceimpl().setIsQuote(equip.getType(), "true");
 						equips.setDescription(equip.getDescription());
 						equips.setEquiomentState(equip.getEquiomentState());
 						equips.setName(equip.getName());
@@ -110,6 +114,27 @@ public class EquipmentServiceimpl implements EquipmentService {
 		}
 		return list;
 
+	}
+	public boolean changeEquipmentType(String oldtype,String newtype) {
+		FileUtils2<List<Equipment>> fUtils = new FileUtils2<>();
+		List<Equipment> list = fUtils.getData("equipments.data");
+		
+		//update data
+		if(list == null)
+		{
+			list = new ArrayList<>();
+		}else{
+			for(Equipment equip : list) {
+			if(equip.getIsAvailable().equals("true")) {
+				if(equip.getType().equals(oldtype)) {
+					equip.setType(newtype);
+				}
+			}
+		}
+			fUtils.writeData(list, "equipments.data");	
+			return true;
+		}
+		return false;
 	}
 	
 	

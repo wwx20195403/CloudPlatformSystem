@@ -70,10 +70,11 @@ public class ProductTypeServiceimpl implements ProductTypeService {
 			list = new ArrayList<>();
 
 		}else {
+			if(isMore(protype.getName()))return false;
 			for(ProductType protypes : list) {
 				if(protypes.getIsAvailable().equals("true")) {
 					if(protypes.getSerialNumber().equals(protype.getSerialNumber())) {
-						if(protypes.getIsQuote()==0) {
+						if((new ProductServiceimpl()).changeProductType(protypes.getName(), protype.getName())) {
 							protypes.setName(protype.getName());
 							fUtils.writeData(list, "productType.data");	
 							return true;
@@ -119,5 +120,50 @@ public class ProductTypeServiceimpl implements ProductTypeService {
 		}
 		return list;
 	}
+
+	private boolean isMore(String name) {
+		FileUtils2<List<ProductType>> fUtils = new FileUtils2<>();
+		List<ProductType> list = fUtils.getData("productType.data");
+		if(list == null)
+		{
+			list = new ArrayList<>();
+
+		}else {
+			for(ProductType protypes : list) {
+				if(protypes.getIsAvailable().equals("true")) {
+					if(protypes.getName().equals(name)) {
+							return true;
+						}
+					}
+				}
+			}
+		return false;
+	}
+	@Override
+	public boolean setIsQuote(String name, String style) throws IOException {
+		// TODO Auto-generated method stub
+		FileUtils2<List<ProductType>> fUtils = new FileUtils2<>();
+		List<ProductType> list = fUtils.getData("productType.data");
+	
+		if(list == null)
+		{
+			list = new ArrayList<>();
+
+		}else {
+			for(ProductType protypes : list) {
+				if(protypes.getIsAvailable().equals("true")) {
+					if(protypes.getName().equals(name)) {
+								protypes.setIsQuote(style);
+								fUtils.writeData(list, "productType.data");	
+								return true;
+								
+						}
+					}
+				}
+			}
+		return false;
+	}
+	
+
 
 }

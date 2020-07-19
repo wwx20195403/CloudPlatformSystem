@@ -27,8 +27,12 @@ public class EquipmentType implements Serializable{
 	public int getIsQuote() {
 		return isQuote;
 	}
-	public void setIsQuote(int isQuote) {
-		this.isQuote = isQuote;
+	public void setIsQuote(String a) {
+		if(a.equals("true")) {
+			isQuote++;
+		}else {
+			isQuote--;
+		}
 	}
 	public EquipmentType(String name) {
 		this();

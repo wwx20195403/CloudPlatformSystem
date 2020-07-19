@@ -29,5 +29,8 @@ public class EquipmentTypeController extends BaseController {
 	public List<EquipmentType> showEquipmentType() throws IOException{
 		return equipmentTypeService.showEquipmentType();
 	}
+	public boolean setIsQuote(String name,String style)throws IOException{
+		return equipmentTypeService.setIsQuote(name, style);
+	}
 
 }
