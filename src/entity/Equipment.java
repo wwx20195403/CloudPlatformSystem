@@ -32,6 +32,7 @@ public class Equipment implements Serializable  {
 		this.nowBelong = nowBelong;
 	}
 	private String isAvailable="true";
+	
 	public String getIsAvailable() {
 		return isAvailable;
 	}
@@ -82,7 +83,7 @@ public class Equipment implements Serializable  {
 		Date date=new Date();
 		SimpleDateFormat s=new SimpleDateFormat( "yyyyMMddHHmmssSS");
 		this.id="DNO"+s.format(date);
-		equiomentState="关闭中";
+		equiomentState="闲置中";
 	};
 	
 	

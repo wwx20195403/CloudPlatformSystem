@@ -27,6 +27,7 @@ import javax.swing.table.DefaultTableModel;
 
 import controllers.EquipmentTypeController;
 import entity.EquipmentType;
+import entity.ProductType;
 import mainframe.SyperAdmin;
 import mainframe.dialog.EditEquipmentTypeDialog;
 
@@ -42,12 +43,13 @@ public class EquipmentTypeManageFrame extends JFrame {
   return instance;  
   } 
 	private JPanel contentPane;
-	private DefaultTableModel equipmentTypeModel=new DefaultTableModel();
+	private DefaultTableModel equipmentTypeModel;
 	private JTable equipmentTypes=new JTable(equipmentTypeModel){
 		public boolean isCellEditable(int rowIndex, int ColIndex){
 		     return false;
 			}
    }; 
+   private String[] tableHead=new String[] {"序号","类别名称","序列号","被引用次数"};
 	private JScrollPane equipmentTypeScroll;
 	private List<EquipmentType> equipmentTypeList=null;
 	private EquipmentTypeController equipmentTypeController=new EquipmentTypeController("EquipmentTypeService");
@@ -92,10 +94,6 @@ public class EquipmentTypeManageFrame extends JFrame {
 		equipmentTypes.setFillsViewportHeight(true);
 		equipmentTypes.setRowSelectionAllowed(true);
 		contentPane.add(equipmentTypeScroll,BorderLayout.CENTER);
-		equipmentTypeModel.addColumn("序号");
-		equipmentTypeModel.addColumn("类别名称");
-		equipmentTypeModel.addColumn("序列号");
-		equipmentTypeModel.addColumn("被引用次数");
 		equipmentTypes.setRowHeight(30);
 		equipmentTypes.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);//
 //		updateequipmentList();
@@ -120,7 +118,7 @@ public class EquipmentTypeManageFrame extends JFrame {
 		contentPane.add(btnNewButton_4, BorderLayout.SOUTH);
 		updateEquipmentTypeList();
 		btnNewButton.addActionListener((e)->{
-			EditEquipmentTypeDialog a=new EditEquipmentTypeDialog(EquipmentManageFrame.getInstance(), equipmentTypeController);
+			EditEquipmentTypeDialog a=new EditEquipmentTypeDialog(EquipmentTypeManageFrame.getInstance(), equipmentTypeController);
 			a.addWindowListener(new WindowAdapter() {
 				@Override
 				public void windowClosed(WindowEvent e) {
@@ -135,7 +133,7 @@ public class EquipmentTypeManageFrame extends JFrame {
 			EquipmentType aa=getChange();
 			if(aa==null) {JOptionPane.showMessageDialog(null, "无选择值！");}
 			else {
-			EditEquipmentTypeDialog a=new EditEquipmentTypeDialog(EquipmentManageFrame.getInstance(), equipmentTypeController,aa);
+			EditEquipmentTypeDialog a=new EditEquipmentTypeDialog(EquipmentTypeManageFrame.getInstance(), equipmentTypeController,aa);
 			a.addWindowListener(new WindowAdapter() {
 				@Override
 				public void windowClosed(WindowEvent e) {
@@ -177,15 +175,17 @@ public class EquipmentTypeManageFrame extends JFrame {
 	
 	}
 	
-	public static void updateEquipmentTypeList_1() {
-		getInstance().updateEquipmentTypeList();
-	}
+
 
 	public void updateEquipmentTypeList() {
+		equipmentTypes.setModel(getDefaultTableModel());
+	}
+	
+	
+	public DefaultTableModel getDefaultTableModel() {
 		try {
 			equipmentTypeList=equipmentTypeController.showEquipmentType();
-			    int num = equipmentTypeModel.getRowCount(); //得到此数据表中的行数
-			    equipmentTypeModel.getDataVector().clear();
+			    equipmentTypeModel=new DefaultTableModel(null,tableHead);
 			int i=1;
 			for(EquipmentType eqte : equipmentTypeList) {
 				if(eqte.getIsAvailable().equals("true")){
@@ -202,7 +202,7 @@ public class EquipmentTypeManageFrame extends JFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		return equipmentTypeModel;
 	}
 	private EquipmentType getChange(){
 		int[] rows = equipmentTypes.getSelectedRows();
@@ -247,7 +247,6 @@ public class EquipmentTypeManageFrame extends JFrame {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			equipmentTypeModel.removeRow(rows[i]);
 			
 		}
 	}

@@ -10,22 +10,18 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import controllers.EquipmentController;
 import controllers.EquipmentTypeController;
-import controllers.UserController;
 import entity.Equipment;
 import entity.EquipmentType;
 
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
-
-public class EditEquipmentDialog extends JDialog {
- 
+public class EditEquipmentDialog_Fa extends JDialog {
 	private JTextField E_name;
 	private JTextField E_sp;
 	private JTextField textField_3;
@@ -35,8 +31,10 @@ public class EditEquipmentDialog extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public EditEquipmentDialog(JFrame frame,EquipmentController EquipmentController,Equipment equip) {
+	
+	public EditEquipmentDialog_Fa(JFrame frame,EquipmentController EquipmentController,Equipment equip,String UserID) {
 		super(frame,null,true);
+		setTitle("工厂设备管理");
 		setBounds(100, 100, 347, 403);
 		getContentPane().setLayout(null);
 		JLabel lblNewLabel = new JLabel("设备名称:");
@@ -104,7 +102,7 @@ public class EditEquipmentDialog extends JDialog {
 			btnNewButton.addActionListener((e)->{
 				if(checkValid()) {
 					try {
-						boolean a=EquipmentController.changeEquipment(getValue());
+						boolean a=EquipmentController.changeEquipment(getValue(UserID));
 						if(!a) {
 							JOptionPane.showMessageDialog(null,"修改失败!");
 						}else {
@@ -121,7 +119,7 @@ public class EditEquipmentDialog extends JDialog {
 		btnNewButton.addActionListener((e)->{
 			if(checkValid()) {
 				try {
-					boolean a=EquipmentController.addEquipment(getValue());
+					boolean a=EquipmentController.addEquipment(getValue(UserID));
 					if(!a) {
 						JOptionPane.showMessageDialog(null,"添加失败!");
 					}else {
@@ -137,7 +135,8 @@ public class EditEquipmentDialog extends JDialog {
 		setVisible(true);
 	}
 	
-	public Equipment getValue()
+	
+	public Equipment getValue(String UserID)
 	{
 		Equipment equips=null;
 		if(eq!=null) {
@@ -152,9 +151,9 @@ public class EditEquipmentDialog extends JDialog {
 			equips.setSpecifications(E_sp.getText());
 			equips.setType((String)comboBox.getSelectedItem());
 			equips.setDescription(textField_3.getText());
-			equips.setBelong("0");
-			equips.setNowBelong("0");
-			equips.setIsRent("未被租借");
+			equips.setBelong(UserID);
+			equips.setNowBelong(UserID);
+			equips.setIsRent("工厂设备");
 		
 		}
 		
@@ -183,5 +182,5 @@ public class EditEquipmentDialog extends JDialog {
 		return true;
 	}
 	
-	
+
 }

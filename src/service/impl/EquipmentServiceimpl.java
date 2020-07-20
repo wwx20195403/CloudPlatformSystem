@@ -73,6 +73,7 @@ public class EquipmentServiceimpl implements EquipmentService {
 						equips.setIsRent(equip.getIsRent());
 						equips.setType(equip.getType());
 						equips.setSpecifications(equip.getSpecifications());
+						equips.setNowBelong(equip.getNowBelong());
 						fUtils.writeData(list, "equipments.data");	
 						return true;
 					}

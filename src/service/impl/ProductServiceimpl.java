@@ -70,8 +70,8 @@ public class ProductServiceimpl implements ProductService {
 						new ProductTypeServiceimpl().setIsQuote(pros.getType(), "false");
 						new ProductTypeServiceimpl().setIsQuote(pro.getType(), "true");
 						pros.setDescription(pro.getDescription());
-						pros.setName(pros.getName());
-						pros.setSpecifications(pros.getSpecifications());
+						pros.setName(pro.getName());
+						pros.setSpecifications(pro.getSpecifications());
 						pros.setType(pro.getType());
 						fUtils.writeData(list, "products.data");	
 						return true;

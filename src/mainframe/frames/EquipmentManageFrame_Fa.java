@@ -25,51 +25,38 @@ import javax.swing.table.DefaultTableModel;
 
 import controllers.EquipmentController;
 import controllers.EquipmentTypeController;
-import controllers.UserController;
 import entity.Equipment;
 import entity.EquipmentType;
-import entity.Factory;
+import mainframe.Login;
 import mainframe.SyperAdmin;
 import mainframe.dialog.EditEquipmentDialog;
-import mainframe.dialog.EditEquipmentTypeDialog;
+import mainframe.dialog.EditEquipmentDialog_Fa;
 import utils.SmallTool;
 
-
-public class EquipmentManageFrame extends JFrame {
-
-	 private static EquipmentManageFrame instance;
-	 public static EquipmentManageFrame getInstance() {  
-   if (instance == null) {  
-       instance = new EquipmentManageFrame();  
-   }  
-   return instance; 
-   } 
-	 private String[] tableHead=new String[] {"设备序号","设备编号","设备名称","设备类型","设备规格","设备描述","设备状态","租借状态","所属工厂"};
-	private DefaultTableModel equipmentmodel=new DefaultTableModel();
-	private JTable equipments=new JTable(equipmentmodel){
-		public boolean isCellEditable(int rowIndex, int ColIndex){
-		     return false;
-			}
-   }; 
-	private JPanel contentPane;
-	private JScrollPane equipmentScroll;
-	private List<Equipment> equipmentList=null;
-	private EquipmentController equipmentController=new EquipmentController("EquipmentService");
-	private JButton btnNewButton;
-	private JButton btnNewButton_1;
-	private JToolBar toolBar ;
-	private JButton btnNewButton_2;
-	private JButton btnNewButton_3;
-	private JTextField textField; 
-	private JButton btnNewButton_4;
+public class EquipmentManageFrame_Fa extends JFrame {
+	public static String userID;
+	public static void setUserID(String a) {
+		if(SmallTool.checkUserID(a)) {
+			userID=a;
+		}
+	}
+	 private static EquipmentManageFrame_Fa instance;
+	 public static EquipmentManageFrame_Fa getInstance() {  
+  if (instance == null) {  
+      instance = new EquipmentManageFrame_Fa();  
+  }  
+  return instance; 
+  } 
+	
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		EquipmentManageFrame_Fa.setUserID("wwx");
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					EquipmentManageFrame frame =EquipmentManageFrame.getInstance();
+					EquipmentManageFrame_Fa frame =EquipmentManageFrame_Fa.getInstance();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -78,11 +65,28 @@ public class EquipmentManageFrame extends JFrame {
 		});
 	}
 
+	 private String[] tableHead=new String[] {"设备序号","设备编号","设备名称","设备类型","设备规格","设备描述","设备状态","设备来源","所属工厂"};
+	private DefaultTableModel equipmentmodel=new DefaultTableModel();			private JTable equipments=new JTable(equipmentmodel){
+			public boolean isCellEditable(int rowIndex, int ColIndex){
+			     return false;
+				}
+	   }; 
+		private JPanel contentPane;
+		private JScrollPane equipmentScroll;
+		private List<Equipment> equipmentList=null;
+		private EquipmentController equipmentController=new EquipmentController("EquipmentService");
+		private JButton btnNewButton;
+		private JButton btnNewButton_1;
+		private JToolBar toolBar ;
+		private JButton btnNewButton_2;
+		private JButton btnNewButton_3;
+		private JTextField textField; 
+		private JButton btnNewButton_4;
 	/**
 	 * Create the frame.
 	 */
-	public EquipmentManageFrame() {
-		setTitle("设备管理—产能中心");
+	public EquipmentManageFrame_Fa() {
+		setTitle(userID+"的"+"设备管理—工厂");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1004, 457);
 		contentPane = new JPanel();
@@ -126,7 +130,7 @@ public class EquipmentManageFrame extends JFrame {
 			if(size==0) {
 				JOptionPane.showMessageDialog(null, "无可创建的设备类型！");
 			}else {
-				EditEquipmentDialog a=new EditEquipmentDialog(EquipmentManageFrame.getInstance(), equipmentController,null);
+				EditEquipmentDialog_Fa a=new EditEquipmentDialog_Fa(EquipmentManageFrame_Fa.getInstance(), equipmentController,null,userID);
 				a.addWindowListener(new WindowAdapter() {
 					@Override
 					public void windowClosed(WindowEvent e) {
@@ -150,7 +154,7 @@ public class EquipmentManageFrame extends JFrame {
 			Equipment u=getChange();
 			if(u==null)JOptionPane.showMessageDialog(null, "无选择值！");
 			else {
-				EditEquipmentDialog a=new EditEquipmentDialog(EquipmentManageFrame.getInstance(), equipmentController, u);
+				EditEquipmentDialog_Fa a=new EditEquipmentDialog_Fa(EquipmentManageFrame_Fa.getInstance(), equipmentController,null,userID);
 				a.addWindowListener(new WindowAdapter() {
 					@Override
 					public void windowClosed(WindowEvent e) {
@@ -164,15 +168,15 @@ public class EquipmentManageFrame extends JFrame {
 		btnNewButton_4.addActionListener(e->{
 			
 			// TODO Auto-generated method stub
-			SyperAdmin a=SyperAdmin.getInstance();
+			Login a=Login.getInstance();
 			a.setVisible(true);
 			dispose();
 		
 		});
 		setVisible(true);
-
+		
+		
 	}
-	
 	public void updateequipmentList() {
 		equipments.setModel(getDefaultTableModel());
 	}
@@ -183,18 +187,21 @@ public class EquipmentManageFrame extends JFrame {
 			int i=1;
 			for(Equipment equip:  equipmentList) {
 				if(equip.getIsAvailable().equals("true")){
-				Vector<Object> rowData=new Vector<>();
-				rowData.add(i);
-				rowData.add(equip.getId());
-				rowData.add(equip.getName());
-				rowData.add(equip.getType());
-				rowData.add(equip.getSpecifications());
-				rowData.add(equip.getDescription());
-				rowData.add(equip.getEquiomentState());
-				rowData.add(equip.getIsRent());
-				rowData.add(SmallTool.userId_FactotyID(equip.getNowBelong()));
-				equipmentmodel.addRow(rowData);
-				i++; }
+					if(equip.getNowBelong().equals(userID)) {
+						Vector<Object> rowData=new Vector<>();
+						rowData.add(i);
+						rowData.add(equip.getId());
+						rowData.add(equip.getName());
+						rowData.add(equip.getType());
+						rowData.add(equip.getSpecifications());
+						rowData.add(equip.getDescription());
+						rowData.add(equip.getEquiomentState());
+						rowData.add(equip.getIsRent());
+						rowData.add(SmallTool.userId_FactotyID(equip.getNowBelong()));
+						equipmentmodel.addRow(rowData);
+					}
+				
+				}
 			}
 			
 		} catch (IOException e) {
@@ -265,5 +272,5 @@ public class EquipmentManageFrame extends JFrame {
 		return button;
 	}
 
-	
+
 }

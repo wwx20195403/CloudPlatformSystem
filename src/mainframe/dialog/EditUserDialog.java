@@ -103,7 +103,8 @@ public class EditUserDialog extends JDialog {
 		lblNewLabel_4.setBounds(34, 296, 56, 29);
 		getContentPane().add(lblNewLabel_4);
 		
-		JLabel lblNewLabel_5 = new JLabel("修改用户信息");
+		JLabel lblNewLabel_5 = new JLabel("新建用户信息");
+		if(user!=null)lblNewLabel_5 = new JLabel("修改用户信息");
 		lblNewLabel_5.setFont(new Font("宋体", Font.BOLD, 15));
 		lblNewLabel_5.setBounds(94, 30, 145, 29);
 		getContentPane().add(lblNewLabel_5);

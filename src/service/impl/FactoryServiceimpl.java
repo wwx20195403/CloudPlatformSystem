@@ -44,7 +44,10 @@ public class FactoryServiceimpl implements FactoryService {
 		}
 		return false;
 	}
-
+	
+	
+	
+	
 	public void createFactory(User user) {
 		FileUtils2<List<Factory>> fUtils = new FileUtils2<>();
 		List<Factory> list = fUtils.getData("factory.data");
@@ -97,6 +100,25 @@ public class FactoryServiceimpl implements FactoryService {
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public Factory sreachFactory(String userID) throws IOException {
+		FileUtils2<List<Factory>> fUtils = new FileUtils2<>();
+		List<Factory> list = fUtils.getData("factory.data");
+		if(list == null)
+		{
+			list = new ArrayList<>();
+		}else {
+			for(Factory fac:list) {
+				if(fac.getIsAvailable().equals("true")) {
+					if(fac.getUserId().equals(userID)) {
+						return fac;
+					}
+				}
+			}
+		}
+		return null;
 	}
 	
 	

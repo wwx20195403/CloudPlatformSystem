@@ -24,6 +24,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import controllers.UserController;
+import entity.Factory;
 import entity.User;
 import mainframe.SyperAdmin;
 import mainframe.dialog.EditUserDialog;
@@ -40,7 +41,8 @@ public class UserManageFrame extends JFrame {
     }  
     return instance;  
     } 
-	private DefaultTableModel usermodel=new DefaultTableModel();
+		private String[] tableHead=new String[] {"序号","登录账号","姓名","联系方式","类型"};
+	private DefaultTableModel usermodel;
 	private JTable users=new JTable(usermodel){
     public boolean isCellEditable(int rowIndex, int ColIndex){
 		     return false;
@@ -90,11 +92,6 @@ public class UserManageFrame extends JFrame {
 		users.setFillsViewportHeight(true);
 		users.setRowSelectionAllowed(true);
 		contentPane.add(userScroll,BorderLayout.CENTER);
-		usermodel.addColumn("序号");
-		usermodel.addColumn("登录账号");
-		usermodel.addColumn("姓名");
-		usermodel.addColumn("联系方式");
-		usermodel.addColumn("类型");
 		users.setRowHeight(30);
 		users.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);//
 		updateUserList();
@@ -183,10 +180,12 @@ public class UserManageFrame extends JFrame {
 	}
 
 	public void updateUserList() {
+		users.setModel(getDefaultTableModel());
+	}
+	public DefaultTableModel getDefaultTableModel() {
 		try {
 			userList=userController.showUser();
-			usermodel.getDataVector().clear();
-//			usermodel=new DefaultTableModel();
+			usermodel  =new DefaultTableModel(null,tableHead);
 
 			int i=1;
 			for(User user1 : userList) {
@@ -205,7 +204,7 @@ public class UserManageFrame extends JFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		return usermodel;
 	}
 	// 点 '删除' 按钮
 	private void onDelete()
@@ -232,7 +231,6 @@ public class UserManageFrame extends JFrame {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			usermodel.removeRow(rows[i]);
 			
 		}
 	}

@@ -27,6 +27,7 @@ import controllers.Productcontrollers;
 import controllers.ProductTypeController;
 import entity.Product;
 import entity.ProductType;
+import entity.User;
 import mainframe.SyperAdmin;
 import mainframe.dialog.EditProductDialog;
 
@@ -39,12 +40,13 @@ public class ProductManageFrame extends JFrame {
   }  
   return instance; 
   }  
-	private DefaultTableModel productmodel=new DefaultTableModel();
+	private DefaultTableModel productmodel;
 		private JTable products=new JTable(productmodel){
 		public boolean isCellEditable(int rowIndex, int ColIndex){
 			     return false;
 				}
 	   }; 
+	   private String[] tableHead=new String[] {"序号","产品编号","产品名称","产品类型","产品规格","产品描述"};
 		private JPanel contentPane;
 		private JScrollPane productScroll;
 		private List<Product> productList=null;
@@ -88,12 +90,7 @@ public class ProductManageFrame extends JFrame {
 		products.setFillsViewportHeight(true);
 		products.setRowSelectionAllowed(true);
 		contentPane.add(productScroll,BorderLayout.CENTER);
-		productmodel.addColumn("序号");
-		productmodel.addColumn("产品编号");
-		productmodel.addColumn("产品名称");
-		productmodel.addColumn("产品类型");
-		productmodel.addColumn("产品规格");
-		productmodel.addColumn("产品描述");
+
 		products.setRowHeight(30);
 		products.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);//
 		toolBar = new JToolBar();
@@ -174,10 +171,12 @@ public class ProductManageFrame extends JFrame {
 	
 	}
 	public void updateproductList() {
+		products.setModel(getDefaultTableModel());
+	}
+	public DefaultTableModel getDefaultTableModel() {
 		try {
 			productList=productController.showProduct();
-			    int num = productmodel.getRowCount(); //得到此数据表中的行数
-			    productmodel.getDataVector().clear();
+		   productmodel =new DefaultTableModel(null,tableHead);
 			int i=1;
 			for(Product pro:  productList) {
 				if(pro.getIsAvailable().equals("true")){
@@ -196,8 +195,7 @@ public class ProductManageFrame extends JFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		
+		return productmodel;
 	}
 	
 	private int onDelete()
@@ -224,7 +222,6 @@ public class ProductManageFrame extends JFrame {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			productmodel.removeRow(rows[i]);
 			
 		}
 		return 0;

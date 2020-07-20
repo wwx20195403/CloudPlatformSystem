@@ -20,5 +20,8 @@ public class FactoryControllers extends BaseController {
 	public boolean changeFactorystate(String userID,String choice) throws IOException{
 		return factoryService.changeFactorystate(userID,choice);
 	}
+	public Factory sreachFactory(String userID) throws IOException{
+		return factoryService.sreachFactory(userID);
+	}
 
 }

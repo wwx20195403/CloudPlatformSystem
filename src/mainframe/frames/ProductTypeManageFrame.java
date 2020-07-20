@@ -25,6 +25,7 @@ import javax.swing.table.DefaultTableModel;
 
 import controllers.ProductTypeController;
 import entity.ProductType;
+import entity.User;
 import mainframe.SyperAdmin;
 import mainframe.dialog.EditProductTypeDialog;
 
@@ -54,7 +55,8 @@ public class ProductTypeManageFrame extends JFrame {
 			}
 		});
 	}
-	private String[] tableHead=new String[] {};
+	
+	private String[] tableHead=new String[] {"序号","类别名称","序列号","被引用次数"};
 	private DefaultTableModel productTypeModel=new DefaultTableModel();
 	private JTable productTypes=new JTable(productTypeModel){
 		public boolean isCellEditable(int rowIndex, int ColIndex){
@@ -87,10 +89,7 @@ public class ProductTypeManageFrame extends JFrame {
 		productTypeScroll=new JScrollPane(productTypes);
 		productTypes.setFillsViewportHeight(true);
 		productTypes.setRowSelectionAllowed(true);
-		contentPane.add(productTypeScroll,BorderLayout.CENTER);		productTypeModel.addColumn("序号");
-		productTypeModel.addColumn("类别名称");
-		productTypeModel.addColumn("序列号");
-		productTypeModel.addColumn("被引用次数");
+		contentPane.add(productTypeScroll,BorderLayout.CENTER);		
 		productTypes.setRowHeight(30);
 		productTypes.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);//
 		toolBar = new JToolBar();
@@ -169,10 +168,13 @@ public class ProductTypeManageFrame extends JFrame {
 		
 	}
 	public void updateProductTypeList() {
+		productTypes.setModel(getDefaultTableModel());
+	}
+	
+	public DefaultTableModel getDefaultTableModel() {
 		try {
 			productTypeList=productTypeController.showProductType();
-			    int num = productTypeModel.getRowCount(); //得到此数据表中的行数
-			    productTypeModel.getDataVector().clear();
+			    productTypeModel=new DefaultTableModel(null,tableHead);
 			int i=1;
 			for(ProductType pro : productTypeList) {
 				if(pro.getIsAvailable().equals("true")){
@@ -189,7 +191,7 @@ public class ProductTypeManageFrame extends JFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		return productTypeModel;
 	}
 	private ProductType getChange(){
 		int[] rows = productTypes.getSelectedRows();
@@ -234,7 +236,6 @@ public class ProductTypeManageFrame extends JFrame {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			productTypeModel.removeRow(rows[i]);
 			
 		}
 	}
