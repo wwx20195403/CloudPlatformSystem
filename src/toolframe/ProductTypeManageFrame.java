@@ -24,9 +24,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import controllers.ProductTypeController;
-import dialog.EditProductTypeDialog;
 import entity.ProductType;
 import mainframe.SyperAdmin;
+import mainframe.dialog.EditProductTypeDialog;
 
 
 public class ProductTypeManageFrame extends JFrame {

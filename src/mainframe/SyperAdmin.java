@@ -8,12 +8,12 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import entity.ProductType;
-import frames.EquipmentManageFrame;
-import frames.EquipmentTypeManageFrame;
-import frames.FactoryManageFrame;
-import frames.ProductManageFrame;
-import frames.ProductTypeManageFrame;
-import frames.UserManageFrame;
+import mainframe.frames.EquipmentManageFrame;
+import mainframe.frames.EquipmentTypeManageFrame;
+import mainframe.frames.FactoryManageFrame;
+import mainframe.frames.ProductManageFrame;
+import mainframe.frames.ProductTypeManageFrame;
+import mainframe.frames.UserManageFrame;
 
 import javax.swing.JLabel;
 import javax.swing.Icon;

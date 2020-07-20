@@ -26,9 +26,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import controllers.EquipmentTypeController;
-import dialog.EditEquipmentTypeDialog;
 import entity.EquipmentType;
 import mainframe.SyperAdmin;
+import mainframe.dialog.EditEquipmentTypeDialog;
 
 
 

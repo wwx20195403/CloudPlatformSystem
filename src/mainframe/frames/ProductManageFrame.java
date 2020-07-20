@@ -1,4 +1,4 @@
-package frames;
+package mainframe.frames;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -25,10 +25,10 @@ import javax.swing.table.DefaultTableModel;
 
 import controllers.Productcontrollers;
 import controllers.ProductTypeController;
-import dialog.EditProductDialog;
 import entity.Product;
 import entity.ProductType;
 import mainframe.SyperAdmin;
+import mainframe.dialog.EditProductDialog;
 
 
 public class ProductManageFrame extends JFrame {

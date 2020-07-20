@@ -1,4 +1,4 @@
-package dialog;
+package mainframe.dialog;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;

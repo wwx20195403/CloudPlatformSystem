@@ -24,9 +24,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import controllers.UserController;
-import dialog.EditUserDialog;
 import entity.User;
 import mainframe.SyperAdmin;
+import mainframe.dialog.EditUserDialog;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;

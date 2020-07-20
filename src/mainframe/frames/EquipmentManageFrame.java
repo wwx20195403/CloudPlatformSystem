@@ -1,4 +1,4 @@
-package frames;
+package mainframe.frames;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -25,11 +25,11 @@ import javax.swing.table.DefaultTableModel;
 
 import controllers.EquipmentController;
 import controllers.EquipmentTypeController;
-import dialog.EditEquipmentDialog;
-import dialog.EditEquipmentTypeDialog;
 import entity.Equipment;
 import entity.EquipmentType;
 import mainframe.SyperAdmin;
+import mainframe.dialog.EditEquipmentDialog;
+import mainframe.dialog.EditEquipmentTypeDialog;
 
 
 public class EquipmentManageFrame extends JFrame {

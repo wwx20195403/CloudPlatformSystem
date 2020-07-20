@@ -1,10 +1,8 @@
-package frames;
+package mainframe.frames;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
@@ -25,40 +23,22 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-import controllers.EquipmentTypeController;
-import dialog.EditEquipmentTypeDialog;
-import entity.EquipmentType;
+import controllers.ProductTypeController;
+import entity.ProductType;
 import mainframe.SyperAdmin;
+import mainframe.dialog.EditProductTypeDialog;
 
 
-
-
-public class EquipmentTypeManageFrame extends JFrame {
-	 private static EquipmentTypeManageFrame instance;
-	 public static EquipmentTypeManageFrame getInstance() {  
-  if (instance == null) {  
-      instance = new EquipmentTypeManageFrame();  
-  }  
-  return instance;  
-  } 
+public class ProductTypeManageFrame extends JFrame {
+	 private static ProductTypeManageFrame instance;
+	 public static ProductTypeManageFrame getInstance() {  
+ if (instance == null) {  
+     instance = new ProductTypeManageFrame();  
+ }  
+ return instance;  
+ } 
 	private JPanel contentPane;
-	private DefaultTableModel equipmentTypeModel=new DefaultTableModel();
-	private JTable equipmentTypes=new JTable(equipmentTypeModel){
-		public boolean isCellEditable(int rowIndex, int ColIndex){
-		     return false;
-			}
-   }; 
-	private JScrollPane equipmentTypeScroll;
-	private List<EquipmentType> equipmentTypeList=null;
-	private EquipmentTypeController equipmentTypeController=new EquipmentTypeController("EquipmentTypeService");
-	private JButton btnNewButton;
-	private JButton btnNewButton_1;
-	private JToolBar toolBar ;
-	private JButton btnNewButton_2;
-	private JButton btnNewButton_3;
-	private JTextField textField;
-	private JButton btnNewButton_4;
- 
+
 	/**
 	 * Launch the application.
 	 */
@@ -66,7 +46,7 @@ public class EquipmentTypeManageFrame extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					EquipmentTypeManageFrame frame = new EquipmentTypeManageFrame();
+					ProductTypeManageFrame frame = new ProductTypeManageFrame();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -74,11 +54,27 @@ public class EquipmentTypeManageFrame extends JFrame {
 			}
 		});
 	}
-
-	/**
+	private String[] tableHead=new String[] {};
+	private DefaultTableModel productTypeModel=new DefaultTableModel();
+	private JTable productTypes=new JTable(productTypeModel){
+		public boolean isCellEditable(int rowIndex, int ColIndex){
+		     return false;
+			}
+   }; 
+	private JScrollPane productTypeScroll;
+	private List<ProductType> productTypeList=null;
+	private ProductTypeController productTypeController=new ProductTypeController("ProductTypeService");
+	private JButton btnNewButton;
+	private JButton btnNewButton_1;
+	private JToolBar toolBar ;
+	private JButton btnNewButton_2;
+	private JButton btnNewButton_3;
+	private JTextField textField;
+	private JButton btnNewButton_4;
+	/** 
 	 * Create the frame.
 	 */
-	public EquipmentTypeManageFrame() {
+	public ProductTypeManageFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 611, 302);
 		contentPane = new JPanel();
@@ -88,17 +84,15 @@ public class EquipmentTypeManageFrame extends JFrame {
 
 		
 		//表格设置
-		equipmentTypeScroll=new JScrollPane(equipmentTypes);
-		equipmentTypes.setFillsViewportHeight(true);
-		equipmentTypes.setRowSelectionAllowed(true);
-		contentPane.add(equipmentTypeScroll,BorderLayout.CENTER);
-		equipmentTypeModel.addColumn("序号");
-		equipmentTypeModel.addColumn("类别名称");
-		equipmentTypeModel.addColumn("序列号");
-		equipmentTypeModel.addColumn("被引用次数");
-		equipmentTypes.setRowHeight(30);
-		equipmentTypes.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);//
-//		updateequipmentList();
+		productTypeScroll=new JScrollPane(productTypes);
+		productTypes.setFillsViewportHeight(true);
+		productTypes.setRowSelectionAllowed(true);
+		contentPane.add(productTypeScroll,BorderLayout.CENTER);		productTypeModel.addColumn("序号");
+		productTypeModel.addColumn("类别名称");
+		productTypeModel.addColumn("序列号");
+		productTypeModel.addColumn("被引用次数");
+		productTypes.setRowHeight(30);
+		productTypes.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);//
 		toolBar = new JToolBar();
 		contentPane.add(toolBar,BorderLayout.PAGE_START);
 		toolBar.setFloatable(false);
@@ -118,53 +112,51 @@ public class EquipmentTypeManageFrame extends JFrame {
 		btnNewButton_4.setForeground(Color.white);
 		btnNewButton_4.setBackground(new Color(0,130,228));
 		contentPane.add(btnNewButton_4, BorderLayout.SOUTH);
-		updateEquipmentTypeList();
-		btnNewButton.addActionListener((e)->{
-			EditEquipmentTypeDialog a=new EditEquipmentTypeDialog(EquipmentManageFrame.getInstance(), equipmentTypeController);
-			a.addWindowListener(new WindowAdapter() {
-				@Override
-				public void windowClosed(WindowEvent e) {
-					// TODO Auto-generated method stub
-					updateEquipmentTypeList();
-
-				}
-			});
-			
-		});
+		updateProductTypeList();
 		btnNewButton_2.addActionListener((e)->{
-			EquipmentType aa=getChange();
+			ProductType aa=getChange();
 			if(aa==null) {JOptionPane.showMessageDialog(null, "无选择值！");}
 			else {
-			EditEquipmentTypeDialog a=new EditEquipmentTypeDialog(EquipmentManageFrame.getInstance(), equipmentTypeController,aa);
+				EditProductTypeDialog a=new EditProductTypeDialog(ProductTypeManageFrame.getInstance(), productTypeController,aa);
 			a.addWindowListener(new WindowAdapter() {
 				@Override
 				public void windowClosed(WindowEvent e) {
 					// TODO Auto-generated method stub
-					updateEquipmentTypeList();
+					updateProductTypeList();
 				}
 			});}
 		});
-		
 		btnNewButton_1.addActionListener((e)->{
 			onDelete();
-			updateEquipmentTypeList();
+			updateProductTypeList();
+		});
+
+		btnNewButton.addActionListener((e)->{
+			EditProductTypeDialog a=new EditProductTypeDialog(ProductTypeManageFrame.getInstance(), productTypeController,null);
+			a.addWindowListener(new WindowAdapter() {
+				@Override
+				public void windowClosed(WindowEvent e) {
+					// TODO Auto-generated method stub
+					updateProductTypeList();
+
+				}
+			});
 		});
 		btnNewButton_3.addActionListener(e->{
 			String name=textField.getText();
 			int m=0;
-			for( int i=0;i<equipmentTypeList.size();i++) {
-				if(equipmentTypeList.get(i).getIsAvailable().equals("true")) {
-					if(equipmentTypeList.get(i).getName().equals(name)) {
-							 equipmentTypes.setRowSelectionInterval(m, m);
-							 equipmentTypes.scrollRectToVisible(equipmentTypes.getCellRect(m, 0, true));
-							 equipmentTypes.setSelectionBackground(Color.LIGHT_GRAY);//选中行设置背景色								
+			for( int i=0;i<productTypeList.size();i++) {
+				if(productTypeList.get(i).getIsAvailable().equals("true")) {
+					if(productTypeList.get(i).getName().equals(name)) {
+						productTypes.setRowSelectionInterval(m, m);
+						productTypes.scrollRectToVisible(productTypes.getCellRect(m, 0, true));
+						productTypes.setSelectionBackground(Color.LIGHT_GRAY);//选中行设置背景色								
 
 					}
 					m++;
 				}
 			}
 		});
-
 		btnNewButton_4.addActionListener(e->{
 			
 			// TODO Auto-generated method stub
@@ -173,28 +165,23 @@ public class EquipmentTypeManageFrame extends JFrame {
 			dispose();
 		
 		});
-	
-	
+		
+		
 	}
-	
-	public static void updateEquipmentTypeList_1() {
-		getInstance().updateEquipmentTypeList();
-	}
-
-	public void updateEquipmentTypeList() {
+	public void updateProductTypeList() {
 		try {
-			equipmentTypeList=equipmentTypeController.showEquipmentType();
-			    int num = equipmentTypeModel.getRowCount(); //得到此数据表中的行数
-			    equipmentTypeModel.getDataVector().clear();
+			productTypeList=productTypeController.showProductType();
+			    int num = productTypeModel.getRowCount(); //得到此数据表中的行数
+			    productTypeModel.getDataVector().clear();
 			int i=1;
-			for(EquipmentType eqte : equipmentTypeList) {
-				if(eqte.getIsAvailable().equals("true")){
+			for(ProductType pro : productTypeList) {
+				if(pro.getIsAvailable().equals("true")){
 				Vector<Object> rowData=new Vector<>();
 				rowData.add(i);
-				rowData.add(eqte.getName());
-				rowData.add(eqte.getSerialNumber());
-				rowData.add(eqte.getIsQuote());
-				equipmentTypeModel.addRow(rowData);
+				rowData.add(pro.getName());
+				rowData.add(pro.getSerialNumber());
+				rowData.add(pro.getIsQuote());
+				productTypeModel.addRow(rowData);
 				i++; }
 			}
 			
@@ -204,13 +191,13 @@ public class EquipmentTypeManageFrame extends JFrame {
 		}
 
 	}
-	private EquipmentType getChange(){
-		int[] rows = equipmentTypes.getSelectedRows();
+	private ProductType getChange(){
+		int[] rows = productTypes.getSelectedRows();
 		for(int i= rows.length-1; i>=0; i--)
 		{
-			String s=(String)equipmentTypeModel.getValueAt(rows[i], 1);
+			String s=(String)productTypes.getValueAt(rows[i], 1);
 			try {
-				EquipmentType u=equipmentTypeController.searchEquipmentType(s);
+				ProductType u=productTypeController.searchProductType(s);
 				return u;
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -225,7 +212,7 @@ public class EquipmentTypeManageFrame extends JFrame {
 	{
 		// 获取选中的行的索引
 		int[] rows=null;
-		rows = equipmentTypes.getSelectedRows();
+		rows = productTypes.getSelectedRows();
 		System.out.println(rows.length);
 		if(rows.length == 0)return;
 				
@@ -236,9 +223,9 @@ public class EquipmentTypeManageFrame extends JFrame {
 		// 技巧：从后往前删除
 		for(int i= rows.length-1; i>=0; i--)
 		{
-			String s=(String)equipmentTypes.getValueAt(rows[i], 1);
+			String s=(String)productTypes.getValueAt(rows[i], 1);
 			try {
-				if(equipmentTypeController.deleteEquipmentType(s)){
+				if(productTypeController.deleteProductType(s)){
 					JOptionPane.showMessageDialog(this, "删除成功！");
 					}else{
 					JOptionPane.showMessageDialog(this, "删除失败！");
@@ -247,7 +234,7 @@ public class EquipmentTypeManageFrame extends JFrame {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			equipmentTypeModel.removeRow(rows[i]);
+			productTypeModel.removeRow(rows[i]);
 			
 		}
 	}
@@ -263,5 +250,6 @@ public class EquipmentTypeManageFrame extends JFrame {
 		button.setFocusPainted(false);
 		return button;
 	}
-	
+
+
 }

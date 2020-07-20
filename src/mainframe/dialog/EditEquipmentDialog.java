@@ -1,4 +1,4 @@
-package dialog;
+package mainframe.dialog;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -10,42 +10,46 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import controllers.Productcontrollers;
-import controllers.ProductTypeController;
-import entity.Product;
-import entity.ProductType;
-/*------------------------------------------------------------------*/
-public class EditProductDialog extends JDialog {
+import controllers.EquipmentController;
+import controllers.EquipmentTypeController;
+import controllers.UserController;
+import entity.Equipment;
+import entity.EquipmentType;
 
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
+
+public class EditEquipmentDialog extends JDialog {
+ 
 	private JTextField E_name;
 	private JTextField E_sp;
 	private JTextField textField_3;
 	private JComboBox<String> comboBox;
-	private ProductTypeController et=new ProductTypeController("ProductTypeService");
-	private Product pro;
-	/** 
+	private JTextField E_bl;
+	private EquipmentTypeController et=new EquipmentTypeController("EquipmentTypeService");
+	private Equipment eq;
+	/**
 	 * Create the dialog.
 	 */
-	public EditProductDialog(JFrame frame,Productcontrollers productController,Product pros) {
+	public EditEquipmentDialog(JFrame frame,EquipmentController EquipmentController,Equipment equip) {
 		super(frame,null,true);
-		setBounds(100, 100, 338, 417);
+		setBounds(100, 100, 352, 447);
 		getContentPane().setLayout(null);
-		JLabel lblNewLabel = new JLabel("产品名称:");
+		JLabel lblNewLabel = new JLabel("设备名称:");
 		lblNewLabel.setBounds(34, 80, 56, 29);
 		getContentPane().add(lblNewLabel);
-		pro=pros;
+		eq=equip;
 		E_name = new JTextField();
 		E_name.setBounds(94, 82, 191, 25);
 		getContentPane().add(E_name);
 		E_name.setColumns(10);
-		if(pro!=null)E_name.setText(pro.getName());
-		JLabel lblNewLabel_2 = new JLabel("产品规格:");
+		if(eq!=null)E_name.setText(eq.getName());
+		JLabel lblNewLabel_2 = new JLabel("设备规格:");
 		lblNewLabel_2.setBounds(34, 188, 56, 29);
 		getContentPane().add(lblNewLabel_2);
 		
@@ -53,28 +57,28 @@ public class EditProductDialog extends JDialog {
 		E_sp.setBounds(94, 190, 191, 25);
 		getContentPane().add(E_sp);
 		E_sp.setColumns(10);
-		if(pro!=null)E_sp.setText(pro.getSpecifications());
+		if(eq!=null)E_sp.setText(eq.getSpecifications());
 		textField_3 = new JTextField();
 		textField_3.setBounds(94, 244, 191, 25);
 		getContentPane().add(textField_3);
 		textField_3.setColumns(10);
-		if(pro!=null)textField_3.setText(pro.getDescription());
+		if(eq!=null)textField_3.setText(eq.getDescription());
 		JButton btnNewButton = new JButton("确定");
-		btnNewButton.setBounds(189, 317, 93, 23);
+		btnNewButton.setBounds(233, 375, 93, 23);
 		getContentPane().add(btnNewButton);
 		
-		JLabel E_de = new JLabel("产品描述:");
+		JLabel E_de = new JLabel("设备描述:");
 		E_de.setBounds(34, 242, 56, 29);
 		getContentPane().add(E_de);
 		
-		JLabel lblNewLabel_4 = new JLabel("产品类型:");
+		JLabel lblNewLabel_4 = new JLabel("设备类型:");
 		lblNewLabel_4.setBounds(34, 134, 56, 29);
 		getContentPane().add(lblNewLabel_4);
 		JLabel lblNewLabel_5 ;
-		if(pro!=null) {
-			lblNewLabel_5 = new JLabel("修改产品");
+		if(eq!=null) {
+			lblNewLabel_5 = new JLabel("修改设备");
 		}else {
-			lblNewLabel_5=new JLabel("创建新产品");
+			lblNewLabel_5=new JLabel("创建新设备");
 		}
 		lblNewLabel_5.setFont(new Font("宋体", Font.BOLD, 15));
 		lblNewLabel_5.setBounds(128, 24, 87, 29);
@@ -83,8 +87,8 @@ public class EditProductDialog extends JDialog {
 		comboBox = new JComboBox();
 		comboBox.setBounds(94, 136, 191, 25);
 		try {
-			List<ProductType> list=et.showProductType();
-			for(ProductType a: list) {
+			List<EquipmentType> list=et.showEquipmentType();
+			for(EquipmentType a: list) {
 				if(a.getIsAvailable().equals("true")) {
 					comboBox.addItem(a.getName());
 				}
@@ -97,11 +101,22 @@ public class EditProductDialog extends JDialog {
 
 	
 		getContentPane().add(comboBox);
-		if(pro!=null) {
+		JLabel lblNewLabel_1 = new JLabel("所属工厂:");
+		lblNewLabel_1.setBounds(34, 308, 78, 15);
+		getContentPane().add(lblNewLabel_1);
+		E_bl = new JTextField();
+		E_bl.setBounds(94, 303, 191, 25);
+		getContentPane().add(E_bl);
+		E_bl.setColumns(10);
+		if(eq!=null) {
+		E_bl.setText(eq.getNowBelong());
+		E_bl.setEditable(false);
+		}
+		if(eq!=null) {
 			btnNewButton.addActionListener((e)->{
 				if(checkValid()) {
 					try {
-						boolean a=productController.changeProduct(getValue());
+						boolean a=EquipmentController.changeEquipment(getValue());
 						if(!a) {
 							JOptionPane.showMessageDialog(null,"修改失败!");
 						}else {
@@ -118,7 +133,7 @@ public class EditProductDialog extends JDialog {
 		btnNewButton.addActionListener((e)->{
 			if(checkValid()) {
 				try {
-					boolean a=productController.addProduct(getValue());
+					boolean a=EquipmentController.addEquipment(getValue());
 					if(!a) {
 						JOptionPane.showMessageDialog(null,"添加失败!");
 					}else {
@@ -134,31 +149,41 @@ public class EditProductDialog extends JDialog {
 		setVisible(true);
 	}
 	
-	public Product getValue()
+	public Equipment getValue()
 	{
-		Product pross=null;
-		if(pro!=null) {
-			 pross = pro;
-			 pross.setName(E_name.getText());
-			 pross.setSpecifications(E_sp.getText());
-			 pross.setType((String)comboBox.getSelectedItem());
-			 pross.setDescription(textField_3.getText());
+		Equipment equips=null;
+		if(eq!=null) {
+			 equips = eq;
+			 equips.setName(E_name.getText());
+			 equips.setSpecifications(E_sp.getText());
+			 equips.setType((String)comboBox.getSelectedItem());
+			 equips.setDescription(textField_3.getText());
 		}else {
-			pross = new Product();
-			pross.setName(E_name.getText());
-			pross.setSpecifications(E_sp.getText());
-			pross.setType((String)comboBox.getSelectedItem());
-			pross.setDescription(textField_3.getText());
-
+			equips = new Equipment();
+			equips.setName(E_name.getText());
+			equips.setSpecifications(E_sp.getText());
+			equips.setType((String)comboBox.getSelectedItem());
+			equips.setDescription(textField_3.getText());
+			equips.setBelong(E_bl.getText());
+			equips.setNowBelong(E_bl.getText());
+			if(E_bl.getText().equals("产能中心")) {
+				equips.setIsRent("未被租借");
+			}else {
+				equips.setIsRent("工厂设备");
+			}
 		}
 		
 
 		
-		return pross;
+		return equips;
 	}
 	public boolean checkValid()
 	{
-		
+		if(E_bl.getText().isEmpty())
+		{
+			JOptionPane.showMessageDialog(this, "工厂不得为空!");
+			return false;
+		}
 		if(E_name.getText().isEmpty())
 		{
 			JOptionPane.showMessageDialog(this, "名称不得为空!");
@@ -169,6 +194,7 @@ public class EditProductDialog extends JDialog {
 			JOptionPane.showMessageDialog(this, "规格不得为空!");
 			return false;
 		}
+
 		if(textField_3.getText().isEmpty())
 		{
 			JOptionPane.showMessageDialog(this, "描述不得为空!");
@@ -178,5 +204,4 @@ public class EditProductDialog extends JDialog {
 	}
 	
 	
-
 }
