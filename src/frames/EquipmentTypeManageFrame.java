@@ -8,9 +8,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 import java.util.Vector;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -26,6 +28,7 @@ import javax.swing.table.DefaultTableModel;
 import controllers.EquipmentTypeController;
 import dialog.EditEquipmentTypeDialog;
 import entity.EquipmentType;
+import mainframe.SyperAdmin;
 
 
 
@@ -54,6 +57,7 @@ public class EquipmentTypeManageFrame extends JFrame {
 	private JButton btnNewButton_2;
 	private JButton btnNewButton_3;
 	private JTextField textField;
+	private JButton btnNewButton_4;
  
 	/**
 	 * Launch the application.
@@ -109,6 +113,11 @@ public class EquipmentTypeManageFrame extends JFrame {
 		toolBar.add(btnNewButton_2);
 		toolBar.add(textField);
 		toolBar.add(btnNewButton_3);
+		
+		btnNewButton_4 =createToolButton("返回超级管理员界面", "back.png");
+		btnNewButton_4.setForeground(Color.white);
+		btnNewButton_4.setBackground(new Color(0,130,228));
+		contentPane.add(btnNewButton_4, BorderLayout.SOUTH);
 		updateEquipmentTypeList();
 		btnNewButton.addActionListener((e)->{
 			EditEquipmentTypeDialog a=new EditEquipmentTypeDialog(EquipmentManageFrame.getInstance(), equipmentTypeController);
@@ -156,7 +165,14 @@ public class EquipmentTypeManageFrame extends JFrame {
 			}
 		});
 
-	
+		btnNewButton_4.addActionListener(e->{
+			
+			// TODO Auto-generated method stub
+			SyperAdmin a=SyperAdmin.getInstance();
+			a.setVisible(true);
+			dispose();
+		
+		});
 	
 	
 	}
@@ -234,6 +250,18 @@ public class EquipmentTypeManageFrame extends JFrame {
 			equipmentTypeModel.removeRow(rows[i]);
 			
 		}
+	}
+	private JButton createToolButton(String text, String icon)
+	{
+		// 图标
+		String imagePath = "/images/" + icon;
+		URL imageURL = getClass().getResource(imagePath);
+		// 创建按钮
+		JButton button = new JButton(text);
+		button.setToolTipText(text);
+		button.setIcon(new ImageIcon(imageURL));
+		button.setFocusPainted(false);
+		return button;
 	}
 	
 }

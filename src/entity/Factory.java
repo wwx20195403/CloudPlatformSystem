@@ -43,7 +43,11 @@ public class Factory implements Serializable {
 		return fctorystate;
 	}
 	public void setFctorystate(String fctorystate) {
-		this.fctorystate = fctorystate;
+		if(fctorystate.equals("true")) {
+			this.fctorystate="正常";
+		}else {
+			this.fctorystate="关停";
+		}
 	}
 	public String getUserNumber() {
 		return UserNumber;

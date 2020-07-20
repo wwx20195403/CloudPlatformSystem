@@ -24,7 +24,7 @@ public class FactoryServiceimpl implements FactoryService {
 	}
 
 	@Override
-	public boolean changeFactorystate(String id) throws IOException {
+	public boolean changeFactorystate(String userID,String choice) throws IOException {
 		// TODO Auto-generated method stub
 		FileUtils2<List<Factory>> fUtils = new FileUtils2<>();
 		List<Factory> list = fUtils.getData("factory.data");
@@ -34,12 +34,9 @@ public class FactoryServiceimpl implements FactoryService {
 		}else {
 			for(Factory fac:list) {
 				if(fac.getIsAvailable().equals("true")) {
-					if(fac.getUserId().equals(id)) {
-						if(fac.getFctorystate().equals("关停")) {
-							fac.setFctorystate("开启");
-						}else {
-							fac.setFctorystate("关停");
-			 			}
+					if(fac.getUserId().equals(userID)) {
+						fac.setFctorystate(choice);
+						fUtils.writeData(list, "factory.data");
 						return true;
 					}
 				}
@@ -93,6 +90,7 @@ public class FactoryServiceimpl implements FactoryService {
 						fac.setIntroduction(use.getFacdes());
 						fac.setName(use.getFacName());
 						fac.setUsername(use.getName());
+						fUtils.writeData(list, "factory.data");
 						return true;
 					}
 				}

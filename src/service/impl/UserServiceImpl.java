@@ -120,7 +120,7 @@ public class UserServiceImpl implements UserService {
 			for(User use : list) {
 				if(use.getIsAvailable().equals("true")) {
 					if(user.getId().equals(use.getId())) {
-					if(new FactoryServiceimpl().changeFactory(use)) {
+					if(new FactoryServiceimpl().changeFactory(user)) {
 						use.setName(user.getName());
 						use.setPassword(user.getPassword());
 						use.setPhone(user.getPhone());

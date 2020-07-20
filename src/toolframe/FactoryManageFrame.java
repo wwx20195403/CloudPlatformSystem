@@ -1,4 +1,4 @@
- package frames;
+ package toolframe;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
