@@ -8,14 +8,23 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import controllers.UserController;
+import entity.User;
 import mainframe.frames.EquipmentManageFrame_Fa;
+import mainframe.frames.TraderOrderFrame;
 import mainframe.frames.UserManageFrame;
 import utils.SmallTool;
 
 import javax.swing.JButton;
 import javax.swing.JTextField;
+import javax.swing.JLabel;
+import java.awt.Font;
+import java.io.IOException;
+
+import javax.swing.JPasswordField;
 
 public class Login extends JFrame {
+	private UserController userController=new UserController("UserService");
 	 private static Login instance;
 	 public static Login getInstance() {  
     if (instance == null) {  
@@ -24,7 +33,8 @@ public class Login extends JFrame {
     return instance;  
     } 
 	private JPanel contentPane;
-	private JTextField textField;
+	private JTextField textField_1;
+	private JPasswordField passwordField;
 
 	/**
 	 * Launch the application.
@@ -53,34 +63,86 @@ public class Login extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		textField = new JTextField();
-		textField.setBounds(53, 113, 159, 36);
-		contentPane.add(textField);
-		textField.setColumns(10);
-		
-		JButton btnNewButton = new JButton("New button");
-		btnNewButton.setBounds(223, 119, 93, 23);
+		JButton btnNewButton = new JButton("确定");
+		btnNewButton.setBounds(298, 208, 93, 23);
 		contentPane.add(btnNewButton);
-		btnNewButton.addActionListener(e->{
-			if(check()) {
-				if(SmallTool.checkUserID(textField.getText())) {
-					EquipmentManageFrame_Fa.setUserID(textField.getText());
-					EquipmentManageFrame_Fa a=EquipmentManageFrame_Fa.getInstance();
-					dispose();
-				}
-			}
+		
+		textField_1 = new JTextField();
+		textField_1.setBounds(146, 79, 200, 23);
+		contentPane.add(textField_1);
+		textField_1.setColumns(10);
+		
+		JLabel lblNewLabel = new JLabel("账号:");
+		lblNewLabel.setFont(new Font("宋体", Font.PLAIN, 16));
+		lblNewLabel.setBounds(100, 71, 49, 36);
+		contentPane.add(lblNewLabel);
+		
+		passwordField = new JPasswordField();
+		passwordField.setBounds(146, 142, 200, 23);
+		contentPane.add(passwordField);
+		
+		JLabel lblNewLabel_1 = new JLabel("密码:");
+		lblNewLabel_1.setFont(new Font("宋体", Font.PLAIN, 16));
+		lblNewLabel_1.setBounds(105, 134, 69, 36);
+		contentPane.add(lblNewLabel_1);
+		
+		JLabel lblNewLabel_2 = new JLabel("登录");
+		lblNewLabel_2.setFont(new Font("宋体", Font.PLAIN, 40));
+		lblNewLabel_2.setBounds(175, 0, 204, 78);
+		contentPane.add(lblNewLabel_2);
+		
+		JButton btnNewButton_1 = new JButton("超级管理员");
+		btnNewButton_1.setBounds(0, 0, 111, 29);
+		contentPane.add(btnNewButton_1);
+		
+		btnNewButton_1.addActionListener(e->{
+			SyperAdmin a=SyperAdmin.getInstance();
+			a.setVisible(true);
+			dispose();
 		});
 		
+		btnNewButton.addActionListener(e->{
+			if(check()) {
+				String userID=textField_1.getText();
+				String password=String.valueOf(passwordField.getPassword());
+				if(userController.validate(userID, password)) {
+					try {
+						User u=userController.searchUser(userID);
+						if(u.getType().equals("云工厂管理员")){	
+							FactoryAdmin.setUserID(u.getId());
+							FactoryAdmin a=FactoryAdmin.getInstance();
+							a.setVisible(true);
+							dispose();
+							}else if(u.getType().equals("经销商")){
+								TraderAdmin.setUserID(u.getId());
+								TraderAdmin a=TraderAdmin.getInstance();
+								a.setVisible(true);
+								dispose();
+							}
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+
+				}
+				textField_1.setText("");
+				passwordField.setText("");
+			}
+		});
 		
 		
 		setVisible(true);
 	}
 	
 	public boolean check() {
-		if(textField.getText().isEmpty()) {
+		if(textField_1.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(this, "账户名不得为空!");
 			return false;
 		}
-		else return true;
+		if(passwordField.getPassword().length==0) {
+			JOptionPane.showMessageDialog(this, "密码不得为空!");
+			return false;
+		}
+		 return true;
 		}
 	}

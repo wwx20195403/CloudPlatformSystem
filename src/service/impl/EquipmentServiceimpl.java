@@ -50,6 +50,28 @@ public class EquipmentServiceimpl implements EquipmentService {
 		}
 	return false;
 	}
+	
+	public boolean delete(String id) throws IOException {
+		FileUtils2<List<Equipment>> fUtils = new FileUtils2<>();
+		List<Equipment> list = fUtils.getData("equipments.data");
+		if(list == null)
+		{
+			list = new ArrayList<>();
+
+		}else {
+		for(Equipment equip : list) {
+			if(equip.getIsAvailable().equals("true")) {
+				if(equip.getBelong().equals(id)) {
+					equip.setIsAvailable("false");
+					new EquipmentTypeServiceimpl().setIsQuote(equip.getType(), "false");
+					fUtils.writeData(list, "equipments.data");	
+					return true;
+				}
+			}
+		}
+		}
+	return false;
+	}
 	@Override
 	public boolean changeEquipment(Equipment equip) throws IOException {
 		FileUtils2<List<Equipment>> fUtils = new FileUtils2<>();

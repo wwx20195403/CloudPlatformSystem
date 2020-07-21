@@ -61,6 +61,8 @@ public class EquipmentManageFrame extends JFrame {
 	private JButton btnNewButton_2;
 	private JButton btnNewButton_3;
 	private JTextField textField; 
+	private JButton btnNewButton_5;		
+	private JButton btnNewButton_6;	
 	private JButton btnNewButton_4;
 	/**
 	 * Launch the application.
@@ -104,11 +106,16 @@ public class EquipmentManageFrame extends JFrame {
 		btnNewButton_1 = new JButton("删除");
 		btnNewButton_2=new JButton("修改");
 		btnNewButton_3=new JButton("检索");
+		btnNewButton_5=new JButton("远程开机");
+		btnNewButton_6=new JButton("远程关机");
+	
 		textField=new JTextField();
 		textField.setToolTipText("请输入账号");
 		toolBar.add(btnNewButton);
 		toolBar.add(btnNewButton_1);
 		toolBar.add(btnNewButton_2);
+		toolBar.add(btnNewButton_5);
+		toolBar.add(btnNewButton_6);
 		toolBar.add(textField);
 		toolBar.add(btnNewButton_3);
 		btnNewButton_4 =createToolButton("返回超级管理员界面", "back.png");
@@ -148,7 +155,7 @@ public class EquipmentManageFrame extends JFrame {
 		});
 		btnNewButton_2.addActionListener((e)->{
 			Equipment u=getChange();
-			if(u==null)JOptionPane.showMessageDialog(null, "无选择值！");
+			if(u==null) {}
 			else {
 				EditEquipmentDialog a=new EditEquipmentDialog(EquipmentManageFrame.getInstance(), equipmentController, u);
 				a.addWindowListener(new WindowAdapter() {
@@ -168,6 +175,61 @@ public class EquipmentManageFrame extends JFrame {
 			a.setVisible(true);
 			dispose();
 		
+		});
+		
+		btnNewButton_5.addActionListener(e->{
+			int[] rows = equipments.getSelectedRows();
+			if(rows.length == 0) {
+				
+			}else {
+				for(int i= rows.length-1; i>=0; i--)
+				{
+					String id=(String)equipments.getValueAt(rows[i], 1);
+					try {
+						Equipment u=equipmentController.searchEquipment(id);
+						if(u.getEquiomentState().equals("关闭中")){
+							u.setEquiomentState("闲置中");
+							if(equipmentController.changeEquipment(u)) {
+								JOptionPane.showMessageDialog(this, "开启成功！");
+								
+							}
+							}
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				
+					
+				}
+			}
+			updateequipmentList();
+		});
+		btnNewButton_6.addActionListener(e->{
+			int[] rows = equipments.getSelectedRows();
+			if(rows.length == 0) {
+				
+			}else {
+				for(int i= rows.length-1; i>=0; i--)
+				{
+					String id=(String)equipments.getValueAt(rows[i], 1);
+					try {
+						Equipment u=equipmentController.searchEquipment(id);
+						if(u.getEquiomentState().equals("闲置中")){
+							u.setEquiomentState("关闭中");
+							if(equipmentController.changeEquipment(u)) {
+								JOptionPane.showMessageDialog(this, "关闭成功！");
+								
+							}
+							}
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				
+					
+				}
+			}
+			updateequipmentList();
 		});
 		setVisible(true);
 
@@ -222,11 +284,17 @@ public class EquipmentManageFrame extends JFrame {
 		{
 			String id=(String)equipments.getValueAt(rows[i], 1);
 			try {
-				if(equipmentController.deleteEquipment(id)){
-					JOptionPane.showMessageDialog(this, "删除成功！");
-					}else{
-					JOptionPane.showMessageDialog(this, "删除失败！");
-					}
+				Equipment a=equipmentController.searchEquipment(id);
+				if(a.getBelong().equals("0")) {
+					if(equipmentController.deleteEquipment(id)){
+						JOptionPane.showMessageDialog(this, "删除成功！");
+						}else{
+						JOptionPane.showMessageDialog(this, "删除失败！");
+						}
+				}else {
+					JOptionPane.showMessageDialog(this, "不可删除工厂自有的设备！");
+				}			
+			
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -242,7 +310,12 @@ public class EquipmentManageFrame extends JFrame {
 			String s=(String)equipmentmodel.getValueAt(rows[i], 1);
 			try {
 				Equipment u=equipmentController.searchEquipment(s);
-				return u;
+					if(u.getBelong().equals("0")) {
+						return u;
+					}else {
+						JOptionPane.showMessageDialog(this, "不可修改工厂自有的设备！");
+					}
+				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

@@ -27,6 +27,8 @@ import controllers.EquipmentController;
 import controllers.EquipmentTypeController;
 import entity.Equipment;
 import entity.EquipmentType;
+import entity.Factory;
+import mainframe.FactoryAdmin;
 import mainframe.Login;
 import mainframe.SyperAdmin;
 import mainframe.dialog.EditEquipmentDialog;
@@ -34,11 +36,9 @@ import mainframe.dialog.EditEquipmentDialog_Fa;
 import utils.SmallTool;
 
 public class EquipmentManageFrame_Fa extends JFrame {
-	public static String userID;
+	private static String userID;
 	public static void setUserID(String a) {
-		if(SmallTool.checkUserID(a)) {
 			userID=a;
-		}
 	}
 	 private static EquipmentManageFrame_Fa instance;
 	 public static EquipmentManageFrame_Fa getInstance() {  
@@ -48,22 +48,7 @@ public class EquipmentManageFrame_Fa extends JFrame {
   return instance; 
   } 
 	
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EquipmentManageFrame_Fa.setUserID("wwx");
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					EquipmentManageFrame_Fa frame =EquipmentManageFrame_Fa.getInstance();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+
 
 	 private String[] tableHead=new String[] {"设备序号","设备编号","设备名称","设备类型","设备规格","设备描述","设备状态","设备来源","所属工厂"};
 	private DefaultTableModel equipmentmodel=new DefaultTableModel();			private JTable equipments=new JTable(equipmentmodel){
@@ -80,13 +65,16 @@ public class EquipmentManageFrame_Fa extends JFrame {
 		private JToolBar toolBar ;
 		private JButton btnNewButton_2;
 		private JButton btnNewButton_3;
+		private JButton btnNewButton_5;		
+		private JButton btnNewButton_6;	
+		private JButton btnNewButton_7;	
 		private JTextField textField; 
 		private JButton btnNewButton_4;
 	/**
 	 * Create the frame.
 	 */
 	public EquipmentManageFrame_Fa() {
-		setTitle(userID+"的"+"设备管理—工厂");
+		setTitle(userID+"的设备管理—工厂");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1004, 457);
 		contentPane = new JPanel();
@@ -108,14 +96,20 @@ public class EquipmentManageFrame_Fa extends JFrame {
 		btnNewButton_1 = new JButton("删除");
 		btnNewButton_2=new JButton("修改");
 		btnNewButton_3=new JButton("检索");
+		btnNewButton_5=new JButton("远程开机");
+		btnNewButton_6=new JButton("远程关机");
+		btnNewButton_7=new JButton("租借设备");
 		textField=new JTextField();
 		textField.setToolTipText("请输入账号");
 		toolBar.add(btnNewButton);
 		toolBar.add(btnNewButton_1);
 		toolBar.add(btnNewButton_2);
+		toolBar.add(btnNewButton_5);
+		toolBar.add(btnNewButton_6);
+		toolBar.add(btnNewButton_7);		
 		toolBar.add(textField);
 		toolBar.add(btnNewButton_3);
-		btnNewButton_4 =createToolButton("返回超级管理员界面", "back.png");
+		btnNewButton_4 =createToolButton("返回工厂管理员界面", "back.png");
 		btnNewButton_4.setForeground(Color.white);
 		btnNewButton_4.setBackground(new Color(0,130,228));
 		contentPane.add(btnNewButton_4, BorderLayout.SOUTH);
@@ -152,9 +146,9 @@ public class EquipmentManageFrame_Fa extends JFrame {
 		});
 		btnNewButton_2.addActionListener((e)->{
 			Equipment u=getChange();
-			if(u==null)JOptionPane.showMessageDialog(null, "无选择值！");
+			if(u==null) {}
 			else {
-				EditEquipmentDialog_Fa a=new EditEquipmentDialog_Fa(EquipmentManageFrame_Fa.getInstance(), equipmentController,null,userID);
+				EditEquipmentDialog_Fa a=new EditEquipmentDialog_Fa(EquipmentManageFrame_Fa.getInstance(), equipmentController,u,userID);
 				a.addWindowListener(new WindowAdapter() {
 					@Override
 					public void windowClosed(WindowEvent e) {
@@ -168,11 +162,76 @@ public class EquipmentManageFrame_Fa extends JFrame {
 		btnNewButton_4.addActionListener(e->{
 			
 			// TODO Auto-generated method stub
-			Login a=Login.getInstance();
+			FactoryAdmin.setUserID(userID);
+			FactoryAdmin a=FactoryAdmin.getInstance();
 			a.setVisible(true);
 			dispose();
 		
 		});
+		
+		btnNewButton_5.addActionListener(e->{
+			int[] rows = equipments.getSelectedRows();
+			if(rows.length == 0) {
+				
+			}else {
+				for(int i= rows.length-1; i>=0; i--)
+				{
+					String id=(String)equipments.getValueAt(rows[i], 1);
+					try {
+						Equipment u=equipmentController.searchEquipment(id);
+						if(u.getEquiomentState().equals("关闭中")){
+							u.setEquiomentState("闲置中");
+							if(equipmentController.changeEquipment(u)) {
+								JOptionPane.showMessageDialog(this, "开启成功！");
+								
+							}
+							}
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				
+					
+				}
+			}
+			updateequipmentList();
+		});
+		btnNewButton_6.addActionListener(e->{
+			int[] rows = equipments.getSelectedRows();
+			if(rows.length == 0) {
+				
+			}else {
+				for(int i= rows.length-1; i>=0; i--)
+				{
+					String id=(String)equipments.getValueAt(rows[i], 1);
+					try {
+						Equipment u=equipmentController.searchEquipment(id);
+						if(u.getEquiomentState().equals("闲置中")){
+							u.setEquiomentState("关闭中");
+							if(equipmentController.changeEquipment(u)) {
+								JOptionPane.showMessageDialog(this, "关闭成功！");
+								
+							}
+							}
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				
+					
+				}
+			}
+			updateequipmentList();
+		});
+		btnNewButton_7.addActionListener(e->{
+			RentEquipment.setUserID(userID);
+			RentEquipment a=RentEquipment.getInstance();
+			a.updateequipmentList();
+			a.setVisible(true);
+			dispose();
+		});
+		
+		
 		setVisible(true);
 		
 		
@@ -196,7 +255,12 @@ public class EquipmentManageFrame_Fa extends JFrame {
 						rowData.add(equip.getSpecifications());
 						rowData.add(equip.getDescription());
 						rowData.add(equip.getEquiomentState());
-						rowData.add(equip.getIsRent());
+						if(equip.getIsRent().equals("工厂设备")) {
+							rowData.add("自有设备");
+						}else {
+							rowData.add("租借设备");
+						}
+						
 						rowData.add(SmallTool.userId_FactotyID(equip.getNowBelong()));
 						equipmentmodel.addRow(rowData);
 					}
@@ -216,6 +280,7 @@ public class EquipmentManageFrame_Fa extends JFrame {
 //	}
 	private int onDelete()
 	{
+		
 		// 获取选中的行的索引
 		int[] rows = equipments.getSelectedRows();
 		if(rows.length == 0)return -1;
@@ -229,11 +294,17 @@ public class EquipmentManageFrame_Fa extends JFrame {
 		{
 			String id=(String)equipments.getValueAt(rows[i], 1);
 			try {
-				if(equipmentController.deleteEquipment(id)){
-					JOptionPane.showMessageDialog(this, "删除成功！");
-					}else{
-					JOptionPane.showMessageDialog(this, "删除失败！");
+				Equipment u=equipmentController.searchEquipment(id);
+				if(u.getBelong()!=userID) {
+					JOptionPane.showMessageDialog(this, "租借设备不可删除");
+					}else {
+						if(equipmentController.deleteEquipment(id)){
+							JOptionPane.showMessageDialog(this, "删除成功！");
+							}else{
+							JOptionPane.showMessageDialog(this, "删除失败！");
+							}
 					}
+			
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -249,7 +320,11 @@ public class EquipmentManageFrame_Fa extends JFrame {
 			String s=(String)equipmentmodel.getValueAt(rows[i], 1);
 			try {
 				Equipment u=equipmentController.searchEquipment(s);
-				return u;
+				if(u.getBelong()!=userID) {
+					JOptionPane.showMessageDialog(this, "租借设备不可修改");
+				}else {
+					return u;
+				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

@@ -188,7 +188,7 @@ public class FactoryManageFrame extends JFrame {
 	}
 	
 	
-	private void updateFactoryList() {
+	public void updateFactoryList() {
 		// TODO Auto-generated method stub
 		factorys.setModel(getDefaultTableModel());
 	}

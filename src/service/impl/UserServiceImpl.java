@@ -18,14 +18,12 @@ public class UserServiceImpl implements UserService {
 	public boolean validate(String id, String password) {
 		FileUtils2<List<User>> fUtils = new FileUtils2<>();
 		List<User> list = fUtils.getData("users.data");
-		String id_1=null;
-		String password_1=null;
 		for(User user : list) {
 			if(user.getIsAvailable().equals("true")) {
-				id_1=user.getId();
-				password_1=user.getPassword();
-				if(id_1==id&&password_1==password) {
-					return true;
+				if(user.getId().equals(id)) {
+					if(user.getPassword().equals(password)) {
+						return true;
+					}
 				}
 			}
 		}
@@ -54,7 +52,6 @@ public class UserServiceImpl implements UserService {
 		}		
 		//write data to file
 		list.add(user);
-		System.out.println(user.getFacName());
 		if(user.getFacName()!=" "){new FactoryServiceimpl().createFactory(user);}
 		fUtils.writeData(list, "users.data");	
 		return true;
@@ -74,6 +71,7 @@ public class UserServiceImpl implements UserService {
 			if(use.getIsAvailable().equals("true")) {
 				if(use.getId().equals(id)) {
 					if(	new FactoryServiceimpl().deleteFactory(use.getUserNumber())) {
+						new EquipmentServiceimpl().delete(use.getId());
 						use.setIsAvailable("false");						
 						fUtils.writeData(list, "users.data");	
 						return true;

@@ -25,7 +25,8 @@ public class MyServiceFactory {
 	    	
 	    	if ("FactoryService".equals(message))
 	    		baseService = new FactoryServiceimpl();
-	    	
+	    	if ("OrderService".equals(message))
+	    		baseService = new OrderServiceimpl();
 	    	 
 	        return baseService;
 		}

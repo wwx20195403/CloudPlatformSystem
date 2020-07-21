@@ -41,7 +41,7 @@ public class UserManageFrame extends JFrame {
     }  
     return instance;  
     } 
-		private String[] tableHead=new String[] {"序号","登录账号","姓名","联系方式","类型"};
+	private String[] tableHead=new String[] {"序号","登录账号","姓名","联系方式","类型"};
 	private DefaultTableModel usermodel;
 	private JTable users=new JTable(usermodel){
     public boolean isCellEditable(int rowIndex, int ColIndex){

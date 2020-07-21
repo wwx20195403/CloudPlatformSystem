@@ -13,6 +13,7 @@ import mainframe.frames.EquipmentTypeManageFrame;
 import mainframe.frames.FactoryManageFrame;
 import mainframe.frames.ProductManageFrame;
 import mainframe.frames.ProductTypeManageFrame;
+import mainframe.frames.SuperAdminOrderFrame;
 import mainframe.frames.UserManageFrame;
 
 import javax.swing.JLabel;
@@ -26,7 +27,8 @@ import java.awt.Color;
 import java.awt.Font;
 
 public class SyperAdmin extends JFrame {
-
+	
+	
 	 private static SyperAdmin instance;
 	 public static SyperAdmin getInstance() {  
    if (instance == null) {  
@@ -153,40 +155,55 @@ public class SyperAdmin extends JFrame {
 		btnNewButton_8.setBounds(410, 480, 130, 41);
 		contentPane.add(btnNewButton_8);
 		
-		
+		btnNewButton_7.addActionListener(e->{
+			Login a=Login.getInstance();
+			a.setVisible(true);
+			dispose();
+		});
 		btnNewButton.addActionListener(e->{
 			UserManageFrame f=UserManageFrame.getInstance();
+			f.updateUserList();
 			f.setVisible(true);
 			dispose();
 		});
 		btnNewButton_1.addActionListener(e->{
-			FactoryManageFrame a=FactoryManageFrame.getInstance();
-			a.setVisible(true);
+			FactoryManageFrame aa=FactoryManageFrame.getInstance();
+			aa.updateFactoryList();
+			aa.setVisible(true);
 			dispose();
 		});
 		
 		btnNewButton_2.addActionListener(e->{
 			ProductTypeManageFrame pt=ProductTypeManageFrame.getInstance();
+			pt.updateProductTypeList();
 			pt.setVisible(true);
 			dispose();
 		});
 		btnNewButton_3.addActionListener(e->{
 			ProductManageFrame pd=ProductManageFrame.getInstance();
+			pd.updateproductList();
 			pd.setVisible(true);
 			dispose();
 		});	
 	
 		btnNewButton_4.addActionListener(e->{
 			EquipmentTypeManageFrame et=EquipmentTypeManageFrame.getInstance();
+			et.updateEquipmentTypeList();
 			et.setVisible(true);
 			dispose();
 		});	
 		btnNewButton_5.addActionListener(e->{
 			EquipmentManageFrame eq=EquipmentManageFrame.getInstance();
+			eq.updateequipmentList();
 			eq.setVisible(true);
 			dispose();
 		});	
-		
+		btnNewButton_6.addActionListener(e->{
+			SuperAdminOrderFrame or=SuperAdminOrderFrame.getInstance();
+			or.updateequipmentList();
+			or.setVisible(true);
+			dispose();
+		});	
 		btnNewButton_8.addActionListener(e->{
 			System.exit(0);
 		});
