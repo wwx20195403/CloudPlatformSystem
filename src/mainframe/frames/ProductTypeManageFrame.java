@@ -40,22 +40,7 @@ public class ProductTypeManageFrame extends JFrame {
  } 
 	private JPanel contentPane;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ProductTypeManageFrame frame = new ProductTypeManageFrame();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-	
+
 	private String[] tableHead=new String[] {"序号","类别名称","序列号","被引用次数"};
 	private DefaultTableModel productTypeModel=new DefaultTableModel();
 	private JTable productTypes=new JTable(productTypeModel){

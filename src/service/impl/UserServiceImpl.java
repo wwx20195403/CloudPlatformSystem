@@ -27,7 +27,19 @@ public class UserServiceImpl implements UserService {
 			if(user.getIsAvailable().equals("true")) {
 				if(user.getId().equals(id)) {
 					if(user.getPassword().equals(password)) {
-						return true;
+						try {
+							if(user.getType().equals("云工厂管理员")) {
+								if((new FactoryServiceimpl()).getFactoryState(id).equals("正常")) {
+									return true;
+								}
+							}else {
+								return true;
+							}
+						
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
 				}
 			}

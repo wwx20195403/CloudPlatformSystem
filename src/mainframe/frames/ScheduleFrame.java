@@ -14,19 +14,25 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import controllers.EquipmentController;
+import controllers.Productcontrollers;
 import controllers.ScheduleServiceController;
 import entity.Order;
+import entity.Product;
 import entity.Schedule;
 import mainframe.dialog.ScheduleDialog;
 import utils.SmallTool;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.JButton;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+
+import entity.Equipment;
 
 public class ScheduleFrame extends JFrame {
 	private static JFrame jframe;
@@ -84,17 +90,42 @@ public class ScheduleFrame extends JFrame {
 		contentPane.add(btnNewButton);
 		
 		btnNewButton.addActionListener(e->{
-			ScheduleDialog sc=new ScheduleDialog(null,order);
-			sc.setVisible(true);
-			sc.addWindowListener(new WindowAdapter(){
-				
-					@Override
-					public void windowClosed(WindowEvent e) {
-						// TODO Auto-generated method stub
-						updateSchedule();
-
+			
+				List<Equipment> s;
+				try {
+					s = new EquipmentController("EquipmentService").showEquipment();
+					int size=0;
+					for(Equipment ep  :s) {
+						if(ep.getNowBelong().equals(userID)) {
+							if(ep.getIsAvailable().equals("true")) {
+								if(ep.getEquiomentState().equals("闲置中")) {
+									size++;
+								}
+							}
+						}
 					}
-			});
+					
+				if(size==0) {
+					JOptionPane.showMessageDialog(null, "无可用设备！");
+				}else {
+					ScheduleDialog sc=new ScheduleDialog(null,order);
+					sc.setVisible(true);
+					sc.addWindowListener(new WindowAdapter(){
+						
+							@Override
+							public void windowClosed(WindowEvent e) {
+								// TODO Auto-generated method stub
+								updateSchedule();
+		
+							}
+					});	
+				}
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
+
 			
 		});
 		JButton btnNewButton_1 = new JButton("删除设备");

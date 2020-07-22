@@ -58,10 +58,10 @@ public class RentEquipment extends JFrame {
 		private List<Equipment> equipmentList=null;
 		private EquipmentController equipmentController=new EquipmentController("EquipmentService");
 		private JButton btnNewButton;
-//		private JButton btnNewButton_1;
-		private JToolBar toolBar ;
-		private JButton btnNewButton_3;
 		private JTextField textField; 
+		private JButton btnNewButton_3;
+		private JToolBar toolBar ;
+
 
 		private JButton btnNewButton_4;
 
@@ -93,18 +93,34 @@ public class RentEquipment extends JFrame {
 		contentPane.add(toolBar,BorderLayout.PAGE_START);
 		toolBar.setFloatable(false);
 		btnNewButton = new JButton("租借");		
-
-//		btnNewButton_1 = new JButton("归还");		
-		
-		btnNewButton_3=new JButton("检索");
-
-	
 		textField=new JTextField();
-		textField.setToolTipText("请输入账号");
+		btnNewButton_3=new JButton("检索");
+	
 		toolBar.add(btnNewButton);
-//		toolBar.add(btnNewButton_1);
 		toolBar.add(textField);
 		toolBar.add(btnNewButton_3);
+		
+		
+		btnNewButton_3.addActionListener(e->{
+			String name=textField.getText();
+			int m=0;
+			for( int i=0;i<equipmentList.size();i++) {
+				if(equipmentList.get(i).getIsAvailable().equals("true")) {
+					if(equipmentList.get(i).getNowBelong().equals("0")) {
+						if(equipmentList.get(i).getName().equals(name)) {
+							equipments.setRowSelectionInterval(m, m);
+							equipments.scrollRectToVisible(equipments.getCellRect(m, 0, true));
+							equipments.setSelectionBackground(Color.LIGHT_GRAY);//选中行设置背景色								
+
+						}
+					m++;
+					}
+					
+				}
+			}
+		});
+		
+
 		btnNewButton_4 =createToolButton("返回设备管理界面", "back.png");
 		btnNewButton_4.setForeground(Color.white);
 		btnNewButton_4.setBackground(new Color(0,130,228));
@@ -137,34 +153,6 @@ public class RentEquipment extends JFrame {
 			}
 			updateequipmentList();
 		});
-//		btnNewButton_1.addActionListener((e)->{
-//			int[] rows = equipments.getSelectedRows();
-//			if(rows.length == 0) {
-//				
-//			}else {
-//				for(int i= rows.length-1; i>=0; i--)
-//				{
-//					String id=(String)equipments.getValueAt(rows[i], 1);
-//					try {
-//						Equipment u=equipmentController.searchEquipment(id);
-//							if(u.getBelong().equals("0")) {
-//								if(u.getNowBelong().equals(userID)){
-//									u.setNowBelong("0");		
-//									if(equipmentController.changeEquipment(u)) {
-//										JOptionPane.showMessageDialog(this, "归还成功！");					
-//									}
-//								}
-//							}
-//					} catch (IOException e1) {
-//						// TODO Auto-generated catch block
-//						e1.printStackTrace();
-//					}
-//				
-//					
-//				}
-//			}
-//		});
-
 
 		btnNewButton_4.addActionListener(e->{
 			
@@ -213,10 +201,7 @@ public class RentEquipment extends JFrame {
 		}
 		return equipmentmodel;
 	}
-//	public void setSelect(int a) {
-//		System.out.println(a);
-//		equipments.setRowSelectionInterval(a,a);
-//	}
+
 
 	
 	private JButton createToolButton(String text, String icon)

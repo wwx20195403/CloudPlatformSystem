@@ -21,8 +21,10 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import controllers.EquipmentController;
 import controllers.FactoryControllers;
 import controllers.UserController;
+import entity.Equipment;
 import entity.Factory;
 import mainframe.SyperAdmin;
 
@@ -50,6 +52,7 @@ public class FactoryManageFrame extends JFrame {
    	private JPanel contentPane;
 	private JScrollPane factoryScroll;
 	private List<Factory> factoryList=null;
+	private EquipmentController equipmentController=new EquipmentController("EquipmentService");
 	private FactoryControllers factoryController=new FactoryControllers("FactoryService");
 	private JButton btnNewButton;
 	private JButton btnNewButton_1;
@@ -60,21 +63,6 @@ public class FactoryManageFrame extends JFrame {
 	private JButton btnNewButton_4;
 
 	 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					FactoryManageFrame frame = new FactoryManageFrame();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
@@ -145,17 +133,23 @@ public class FactoryManageFrame extends JFrame {
 			if(s.equals("关停")) {
 				JOptionPane.showMessageDialog(null,"工厂已经处于关停状态！");
 			}else {
-				try {
-					if(factoryController.changeFactorystate(s1, "false")) {
-						JOptionPane.showMessageDialog(null,"关停成功");
-						updateFactoryList();
-					}else {
-						JOptionPane.showMessageDialog(null,"关停失败");
+				if(isProducting(s1)) {
+					try {
+						if(factoryController.changeFactorystate(s1, "false")) {
+							JOptionPane.showMessageDialog(null,"关停成功");
+							updateFactoryList();
+						}else {
+							JOptionPane.showMessageDialog(null,"关停失败");
+						}
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
 					}
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+				}else {
+					JOptionPane.showMessageDialog(null,"设备生产中,无法关停");
+				
 				}
+
 			}
 		});
 		
@@ -230,5 +224,27 @@ public class FactoryManageFrame extends JFrame {
 		button.setFocusPainted(false);
 		return button;
 	}
+	
+	public boolean  isProducting(String userID) {
+		try {
+			List<Equipment> list=equipmentController.showEquipment();
+			for(Equipment eq:list) {
+				if(eq.getIsAvailable().equals("true")) {
+					if(eq.getNowBelong().equals(userID)) {
+						if(eq.getEquiomentState().equals("生产中")) {
+							return false;
+						}
+					}
+				}
+			}
+			return true;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+		
+	}
+	
 
 	}

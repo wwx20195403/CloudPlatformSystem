@@ -64,21 +64,6 @@ public class EquipmentManageFrame extends JFrame {
 	private JButton btnNewButton_5;		
 	private JButton btnNewButton_6;	
 	private JButton btnNewButton_4;
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					EquipmentManageFrame frame =EquipmentManageFrame.getInstance();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
@@ -148,23 +133,52 @@ public class EquipmentManageFrame extends JFrame {
 			}
 			
 		});
+		btnNewButton_3.addActionListener(e->{
+			String name=textField.getText();
+			int m=0;
+			for( int i=0;i<equipmentList.size();i++) {
+				if(equipmentList.get(i).getIsAvailable().equals("true")) {
+					if(equipmentList.get(i).getName().equals(name)) {
+						equipments.setRowSelectionInterval(m, m);
+						equipments.scrollRectToVisible(equipments.getCellRect(m, 0, true));
+						equipments.setSelectionBackground(Color.LIGHT_GRAY);//选中行设置背景色								
+
+					}
+					m++;
+				}
+			}
+		});
+
 		btnNewButton_1.addActionListener((e)->{
-			int a=onDelete();
-			updateequipmentList();
-			if(a!=-1)equipments.setRowSelectionInterval(a,a);
+			
+			Equipment u=getChange();
+			if(u==null) {}
+			else {
+				if(u.getEquiomentState().equals("生产中")) {
+					JOptionPane.showMessageDialog(this, "生产中无法删除");
+				}else {
+					int a=onDelete();
+					updateequipmentList();
+					if(a!=-1)equipments.setRowSelectionInterval(a,a);
+				}
+			}
 		});
 		btnNewButton_2.addActionListener((e)->{
 			Equipment u=getChange();
 			if(u==null) {}
 			else {
-				EditEquipmentDialog a=new EditEquipmentDialog(EquipmentManageFrame.getInstance(), equipmentController, u);
-				a.addWindowListener(new WindowAdapter() {
-					@Override
-					public void windowClosed(WindowEvent e) {
-						// TODO Auto-generated method stub
-						updateequipmentList();
-					}
-				});
+				if(u.getEquiomentState().equals("生产中")) {
+					JOptionPane.showMessageDialog(this, "生产中无法修改");
+				}else {
+					EditEquipmentDialog a=new EditEquipmentDialog(EquipmentManageFrame.getInstance(), equipmentController, u);
+					a.addWindowListener(new WindowAdapter() {
+						@Override
+						public void windowClosed(WindowEvent e) {
+							// TODO Auto-generated method stub
+							updateequipmentList();
+						}
+					});
+				}
 			}
 			
 		});
@@ -265,10 +279,7 @@ public class EquipmentManageFrame extends JFrame {
 		}
 		return equipmentmodel;
 	}
-//	public void setSelect(int a) {
-//		System.out.println(a);
-//		equipments.setRowSelectionInterval(a,a);
-//	}
+
 	private int onDelete()
 	{
 		// 获取选中的行的索引
@@ -286,11 +297,15 @@ public class EquipmentManageFrame extends JFrame {
 			try {
 				Equipment a=equipmentController.searchEquipment(id);
 				if(a.getBelong().equals("0")) {
-					if(equipmentController.deleteEquipment(id)){
-						JOptionPane.showMessageDialog(this, "删除成功！");
-						}else{
-						JOptionPane.showMessageDialog(this, "删除失败！");
-						}
+					if(a.getNowBelong().equals("0")) {
+						if(equipmentController.deleteEquipment(id)){
+							JOptionPane.showMessageDialog(this, "删除成功！");
+							}else{
+							JOptionPane.showMessageDialog(this, "删除失败！");
+							}
+					}else {
+						JOptionPane.showMessageDialog(this, "已借出设备不可删除！");
+					}
 				}else {
 					JOptionPane.showMessageDialog(this, "不可删除工厂自有的设备！");
 				}			

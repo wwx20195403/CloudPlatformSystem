@@ -68,6 +68,7 @@ public class EquipmentManageFrame_Fa extends JFrame {
 		private JButton btnNewButton_5;		
 		private JButton btnNewButton_6;	
 		private JButton btnNewButton_7;	
+		private JButton btnNewButton_8;
 		private JTextField textField; 
 		private JButton btnNewButton_4;
 	/**
@@ -96,9 +97,10 @@ public class EquipmentManageFrame_Fa extends JFrame {
 		btnNewButton_1 = new JButton("删除");
 		btnNewButton_2=new JButton("修改");
 		btnNewButton_3=new JButton("检索");
-		btnNewButton_5=new JButton("远程开机");
-		btnNewButton_6=new JButton("远程关机");
+		btnNewButton_5=new JButton("开机");
+		btnNewButton_6=new JButton("关机");
 		btnNewButton_7=new JButton("租借设备");
+		btnNewButton_8 = new JButton("归还设备");	
 		textField=new JTextField();
 		textField.setToolTipText("请输入账号");
 		toolBar.add(btnNewButton);
@@ -106,7 +108,8 @@ public class EquipmentManageFrame_Fa extends JFrame {
 		toolBar.add(btnNewButton_2);
 		toolBar.add(btnNewButton_5);
 		toolBar.add(btnNewButton_6);
-		toolBar.add(btnNewButton_7);		
+		toolBar.add(btnNewButton_7);
+		toolBar.add(btnNewButton_8);
 		toolBar.add(textField);
 		toolBar.add(btnNewButton_3);
 		btnNewButton_4 =createToolButton("返回工厂管理员界面", "back.png");
@@ -114,6 +117,27 @@ public class EquipmentManageFrame_Fa extends JFrame {
 		btnNewButton_4.setBackground(new Color(0,130,228));
 		contentPane.add(btnNewButton_4, BorderLayout.SOUTH);
 		updateequipmentList();
+		
+		btnNewButton_3.addActionListener(e->{
+			String name=textField.getText();
+			int m=0;
+			for( int i=0;i<equipmentList.size();i++) {
+				if(equipmentList.get(i).getIsAvailable().equals("true")) {
+					if(equipmentList.get(i).getNowBelong().equals(userID)) {
+						if(equipmentList.get(i).getName().equals(name)) {
+							equipments.setRowSelectionInterval(m, m);
+							equipments.scrollRectToVisible(equipments.getCellRect(m, 0, true));
+							equipments.setSelectionBackground(Color.LIGHT_GRAY);//选中行设置背景色								
+
+						}
+					m++;
+					}
+					
+				}
+			}
+		});
+		
+		
 		btnNewButton.addActionListener((e)->{
 			try {
 				List<EquipmentType> s=new EquipmentTypeController("EquipmentTypeService").showEquipmentType();
@@ -140,25 +164,68 @@ public class EquipmentManageFrame_Fa extends JFrame {
 			
 		});
 		btnNewButton_1.addActionListener((e)->{
-			int a=onDelete();
-			updateequipmentList();
-			if(a!=-1)equipments.setRowSelectionInterval(a,a);
+			Equipment u=getChange();
+			if(u==null) {}
+			else {
+				if(u.getEquiomentState().equals("生产中")) {
+					JOptionPane.showMessageDialog(this, "生产中无法删除");
+				}else {
+					int a=onDelete();
+					updateequipmentList();
+					if(a!=-1)equipments.setRowSelectionInterval(a,a);
+				}
+			}
 		});
 		btnNewButton_2.addActionListener((e)->{
 			Equipment u=getChange();
 			if(u==null) {}
 			else {
-				EditEquipmentDialog_Fa a=new EditEquipmentDialog_Fa(EquipmentManageFrame_Fa.getInstance(), equipmentController,u,userID);
-				a.addWindowListener(new WindowAdapter() {
-					@Override
-					public void windowClosed(WindowEvent e) {
-						// TODO Auto-generated method stub
-						updateequipmentList();
-					}
-				});
+				if(u.getEquiomentState().equals("生产中")) {
+					JOptionPane.showMessageDialog(this, "生产中无法修改");
+				}else {
+					EditEquipmentDialog_Fa a=new EditEquipmentDialog_Fa(EquipmentManageFrame_Fa.getInstance(), equipmentController,u,userID);
+					a.addWindowListener(new WindowAdapter() {
+						@Override
+						public void windowClosed(WindowEvent e) {
+							// TODO Auto-generated method stub
+							updateequipmentList();
+						}
+					});
+				}
+				
 			}
 			
 		});
+		
+		btnNewButton_8.addActionListener((e)->{
+			Equipment u=returnEquipment();
+			if(u==null) {}
+			else {
+				if(u.getEquiomentState().equals("生产中")) {
+					JOptionPane.showMessageDialog(this, "生产中无法进行此操作");
+				}else {
+					try {
+						if(u.getBelong().equals("0")) {
+							if(u.getNowBelong().equals(userID)){
+								u.setNowBelong("0");
+								u.setIsRent("未被租借");
+								if(equipmentController.changeEquipment(u)) {
+									JOptionPane.showMessageDialog(this, "归还成功！");					
+								}
+							}
+						}
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				}
+			}
+			updateequipmentList();
+			
+		
+	});
+
+
 		btnNewButton_4.addActionListener(e->{
 			
 			// TODO Auto-generated method stub
@@ -274,10 +341,7 @@ public class EquipmentManageFrame_Fa extends JFrame {
 		}
 		return equipmentmodel;
 	}
-//	public void setSelect(int a) {
-//		System.out.println(a);
-//		equipments.setRowSelectionInterval(a,a);
-//	}
+
 	private int onDelete()
 	{
 		
@@ -295,7 +359,7 @@ public class EquipmentManageFrame_Fa extends JFrame {
 			String id=(String)equipments.getValueAt(rows[i], 1);
 			try {
 				Equipment u=equipmentController.searchEquipment(id);
-				if(u.getBelong()!=userID) {
+				if(!u.getBelong().equals(userID)) {
 					JOptionPane.showMessageDialog(this, "租借设备不可删除");
 					}else {
 						if(equipmentController.deleteEquipment(id)){
@@ -320,8 +384,29 @@ public class EquipmentManageFrame_Fa extends JFrame {
 			String s=(String)equipmentmodel.getValueAt(rows[i], 1);
 			try {
 				Equipment u=equipmentController.searchEquipment(s);
-				if(u.getBelong()!=userID) {
-					JOptionPane.showMessageDialog(this, "租借设备不可修改");
+				if(!u.getBelong().equals(userID)) {
+					JOptionPane.showMessageDialog(this, "租借设备不可进行此操作");
+				}else {
+					return u;
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+		
+		}
+	return null;	
+	}
+	private Equipment returnEquipment(){
+		int[] rows = equipments.getSelectedRows();
+		for(int i= rows.length-1; i>=0; i--)
+		{
+			String s=(String)equipmentmodel.getValueAt(rows[i], 1);
+			try {
+				Equipment u=equipmentController.searchEquipment(s);
+				if(u.getBelong().equals(userID)) {
+					JOptionPane.showMessageDialog(this, "自有不可进行此操作");
 				}else {
 					return u;
 				}

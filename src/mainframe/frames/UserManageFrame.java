@@ -23,7 +23,9 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import controllers.EquipmentController;
 import controllers.UserController;
+import entity.Equipment;
 import entity.Factory;
 import entity.User;
 import mainframe.SyperAdmin;
@@ -59,23 +61,9 @@ public class UserManageFrame extends JFrame {
 	private JButton btnNewButton_3;
 	private JTextField textField;
 	private JButton btnNewButton_4;
+	private EquipmentController equipmentController=new EquipmentController("EquipmentService");
 	private JButton  btnNewButton_5;
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					UserManageFrame frame = UserManageFrame.getInstance();
-					frame.setVisible(true);
- 				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
- 
+
 	/** 
 	 * Create the frame.
 	 */
@@ -133,8 +121,28 @@ public class UserManageFrame extends JFrame {
 			});
 		}); 
 		btnNewButton_1.addActionListener( (e)->{
-			onDelete();
-			updateUserList();
+
+			User u=getChange();
+			if(u==null) {
+				
+			}else {
+			if(u.getType().equals("经销商")) {
+				onDelete();
+				updateUserList();
+			}else {
+				if(isProducting(u.getId())) {
+					if(isRenting(u.getId())) {
+						onDelete();
+						updateUserList();
+					}else {
+						JOptionPane.showMessageDialog(null, "正在租借设备,无法删除");
+					}
+				}else {
+					JOptionPane.showMessageDialog(null, "生产中,无法删除");
+				}
+			}
+			}
+			
 		}); 
 		btnNewButton_2.addActionListener( (e)->{
 			User u=getChange();
@@ -264,5 +272,45 @@ public class UserManageFrame extends JFrame {
 		button.setFocusPainted(false);
 		return button;
 	}
+	public boolean  isProducting(String userID) {
+		try {
+			List<Equipment> list=equipmentController.showEquipment();
+			for(Equipment eq:list) {
+				if(eq.getIsAvailable().equals("true")) {
+					if(eq.getNowBelong().equals(userID)) {
+						if(eq.getEquiomentState().equals("生产中")) {
+							return false;
+						}
+					}
+				}
+			}
+			return true;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+		
+	}
+	public boolean  isRenting(String userID){
+		try {
+			List<Equipment> list=equipmentController.showEquipment();
+			for(Equipment eq:list) {
+				if(eq.getIsAvailable().equals("true")) {
+					if(eq.getNowBelong().equals(userID)) {
+						if(eq.getBelong().equals("0")) {
+							return false;
+						}
+					}
+				}
+			}
+			return true;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
 
 }

@@ -114,12 +114,17 @@ public class FactorySchedFrame extends JFrame {
 			if(ord==null) {
 				
 			}else {
-				ScheduleFrame.setUserID(userID);
-			ScheduleFrame sc=new ScheduleFrame(ord)	;
-			ScheduleFrame.setJframe(sc);
-			sc.setVisible(true);
-			dispose();
+				if(ord.getOrdetstate().equals("中标")) {
+					ScheduleFrame.setUserID(userID);
+					ScheduleFrame sc=new ScheduleFrame(ord)	;
+					ScheduleFrame.setJframe(sc);
+					sc.setVisible(true);
+					dispose();
+				}else {
+					JOptionPane.showMessageDialog(this, "不可进行此操作!");
+				}
 			}
+			updateorderList();
 			
 		});
 		

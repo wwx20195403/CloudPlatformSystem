@@ -59,21 +59,7 @@ public class ProductManageFrame extends JFrame {
 		private JTextField textField;
 		private JButton btnNewButton_4;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ProductManageFrame frame = new ProductManageFrame();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-	 		}
-		});
-	}
+
 
 	/**
 	 * Create the frame.
@@ -108,6 +94,21 @@ public class ProductManageFrame extends JFrame {
 		toolBar.add(textField);
 		toolBar.add(btnNewButton_3);
 		
+		btnNewButton_3.addActionListener(e->{
+			String name=textField.getText();
+			int m=0;
+			for( int i=0;i<productList.size();i++) {
+				if(productList.get(i).getIsAvailable().equals("true")) {
+					if(productList.get(i).getName().equals(name)) {
+						products.setRowSelectionInterval(m, m);
+						products.scrollRectToVisible(products.getCellRect(m, 0, true));
+						products.setSelectionBackground(Color.LIGHT_GRAY);//选中行设置背景色								
+
+					}
+					m++;
+				}
+			}
+		});
 		btnNewButton_4 =createToolButton("返回超级管理员界面", "back.png");
 		btnNewButton_4.setForeground(Color.white);
 		btnNewButton_4.setBackground(new Color(0,130,228));

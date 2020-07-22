@@ -120,7 +120,7 @@ public class TraderOrderFrame extends JFrame {
 				if(ep.getIsAvailable().equals("true"))size++;
 			}	
 			if(size==0) {
-				JOptionPane.showMessageDialog(null, "无可创建的设备类型！");
+				JOptionPane.showMessageDialog(null, "无可创建的产品类型！");
 			}else {
 				OrderSetDialog a=new OrderSetDialog(TraderOrderFrame.getInstance(),userID,null);
 				a.setVisible(true);
