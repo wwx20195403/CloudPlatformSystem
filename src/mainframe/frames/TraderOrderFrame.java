@@ -39,7 +39,6 @@ public class TraderOrderFrame extends JFrame {
 	private static String userID;
 	public static void setUserID(String a) {
 			userID=a;
-			System.out.println(userID);
 	}
 	
 	 private static TraderOrderFrame instance;
@@ -65,6 +64,7 @@ public class TraderOrderFrame extends JFrame {
 		private JButton btnNewButton;
 		private JToolBar toolBar ;
 		private JButton btnNewButton_3;
+		private JButton btnNewButton_2;
 		private JTextField textField; 
 
 		private JButton btnNewButton_4;
@@ -78,7 +78,7 @@ public class TraderOrderFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public TraderOrderFrame() {
-		setTitle("经销商："+userID+"   订单管理");
+		setTitle("经销商 订单管理");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1004, 457);
 		contentPane = new JPanel();
@@ -97,20 +97,16 @@ public class TraderOrderFrame extends JFrame {
 		contentPane.add(toolBar,BorderLayout.PAGE_START);
 		toolBar.setFloatable(false);
 		btnNewButton = new JButton("新建");			
-		
-		btnNewButton_3=new JButton("检索");
-
-	
-		textField=new JTextField();
-		textField.setToolTipText("请输入账号");
+		btnNewButton_2=new JButton("发布");
+		btnNewButton_3=new JButton("修改");
 		toolBar.add(btnNewButton);
-		toolBar.add(textField);
 		toolBar.add(btnNewButton_3);
+		toolBar.add(btnNewButton_2);
 		btnNewButton_4 =createToolButton("返回经销商管理界面", "back.png");
 		btnNewButton_4.setForeground(Color.white);
 		btnNewButton_4.setBackground(new Color(0,130,228));
 		contentPane.add(btnNewButton_4, BorderLayout.SOUTH);
-		updateequipmentList();
+		updatorderList();
 
 		btnNewButton.addActionListener(e->{
 			try {
@@ -122,13 +118,13 @@ public class TraderOrderFrame extends JFrame {
 			if(size==0) {
 				JOptionPane.showMessageDialog(null, "无可创建的设备类型！");
 			}else {
-				OrderSetDialog a=new OrderSetDialog(userID);
+				OrderSetDialog a=new OrderSetDialog(TraderOrderFrame.getInstance(),userID,null);
 				a.setVisible(true);
 				a.addWindowListener(new WindowAdapter() {
 					@Override
 					public void windowClosed(WindowEvent e) {
 						// TODO Auto-generated method stub
-						updateequipmentList();
+						updatorderList();
 					}
 				});
 			}
@@ -138,6 +134,44 @@ public class TraderOrderFrame extends JFrame {
 			}
 			
 		});
+		
+		btnNewButton_2.addActionListener(e->{
+			Order a=getChange();
+			if(a==null) {
+				
+			}else {
+				a.setOrdetstate("已发布");
+				try {
+					if(orderController.changeOrder(a)) {
+						JOptionPane.showMessageDialog(this, "发布成功！");
+					}else {
+						JOptionPane.showMessageDialog(this, "发布失败！");
+					}
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+			updatorderList();
+		});
+		
+		btnNewButton_3.addActionListener(e->{
+			Order a=getChange();
+			if(a==null) {
+				
+			}else {
+				OrderSetDialog aa=new OrderSetDialog(TraderOrderFrame.getInstance(),userID,a);
+				aa.setVisible(true);
+				aa.addWindowListener(new WindowAdapter() {
+					@Override
+					public void windowClosed(WindowEvent e) {
+						// TODO Auto-generated method stub
+						updatorderList();
+					}
+				});
+			}
+		});
+		
 		btnNewButton_4.addActionListener(e->{
 			
 			// TODO Auto-generated method stub
@@ -153,7 +187,7 @@ public class TraderOrderFrame extends JFrame {
 
 	}
 	
-	public void updateequipmentList() {
+	public void updatorderList() {
 		orders.setModel(getDefaultTableModel());
 	}
 	public DefaultTableModel getDefaultTableModel() {
@@ -199,5 +233,25 @@ public class TraderOrderFrame extends JFrame {
 		return button;
 	}
 
-	
+	private Order getChange(){
+		int[] rows = orders.getSelectedRows();
+		for(int i= rows.length-1; i>=0; i--)
+		{
+			String s=(String)ordermodel.getValueAt(rows[i], 1);
+			try {
+				Order u=orderController.searchOrder(s);
+				if(u.getOrdetstate().equals("已保存")) {
+					return u;
+				}else {
+					JOptionPane.showMessageDialog(this, "不可进行此操作！");
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+		
+		}
+	return null;	
+	}
 }

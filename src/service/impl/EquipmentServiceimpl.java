@@ -160,5 +160,37 @@ public class EquipmentServiceimpl implements EquipmentService {
 		return false;
 	}
 	
+	public void EquipmentState_towork(String EquipmentID) {
+		FileUtils2<List<Equipment>> fUtils = new FileUtils2<>();
+		List<Equipment> list = fUtils.getData("equipments.data");
+		if(list == null)
+		{
+			list = new ArrayList<>();
+		}else{
+			for(Equipment equip : list) {
+			if(equip.getId().equals(EquipmentID)) {
+				equip.setEquiomentState("生产中");
+				fUtils.writeData(list, "equipments.data");	
+			}
+		}
+		
+	}
+	}
 	
+	public void EquipmentState_torest(String EquipmentID) {
+		FileUtils2<List<Equipment>> fUtils = new FileUtils2<>();
+		List<Equipment> list = fUtils.getData("equipments.data");
+		if(list == null)
+		{
+			list = new ArrayList<>();
+		}else{
+			for(Equipment equip : list) {
+			if(equip.getId().equals(EquipmentID)) {
+				equip.setEquiomentState("闲置中");
+				fUtils.writeData(list, "equipments.data");	
+			}
+		}
+		
+	}
+	}
 }

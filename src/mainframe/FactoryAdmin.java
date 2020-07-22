@@ -11,6 +11,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import mainframe.frames.EquipmentManageFrame_Fa;
+import mainframe.frames.FactoryOrderFrame;
+import mainframe.frames.FactorySchedFrame;
 import utils.SmallTool;
 
 import javax.swing.JLabel;
@@ -21,12 +23,13 @@ public class FactoryAdmin extends JFrame {
 	public static String userID;
 	public static void setUserID(String a) {
 			userID=a;
-			System.out.println(userID);
 	}
 	 private static FactoryAdmin instance;
 	 public static FactoryAdmin getInstance() {  
-       instance = new FactoryAdmin();   
-       return instance;  
+		 if (instance == null) {  
+			 instance = new FactoryAdmin();  
+		 }  
+		 return instance;  
    } 
 	private JPanel contentPane;
 	private  JLabel lblNewLabel;
@@ -42,8 +45,7 @@ public class FactoryAdmin extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		 lblNewLabel = new JLabel(userID+"的工厂");
-		System.out.println(userID);
+		lblNewLabel = new JLabel("工厂管理");
 		lblNewLabel.setFont(new Font("宋体", Font.PLAIN, 16));
 		lblNewLabel.setBounds(247, 10, 80, 39);
 		contentPane.add(lblNewLabel);
@@ -72,6 +74,14 @@ public class FactoryAdmin extends JFrame {
 		btnNewButton_6.setBounds(101, 164, 193, 41);
 		contentPane.add(btnNewButton_6);
 		
+		JButton btnNewButton_9 =createToolButton("订单排产","ordercharge.png");
+		btnNewButton_9.setFont(new Font("宋体", Font.PLAIN, 18));
+		btnNewButton_9.setForeground(Color.WHITE);
+		btnNewButton_9.setBackground(new Color(0,130,228));
+		btnNewButton_9.setBounds(326, 164, 193, 41);
+		contentPane.add(btnNewButton_9);
+		
+		
 		JButton btnNewButton_7 =createToolButton("返回登录","back.png");
 		btnNewButton_7.setFont(new Font("宋体", Font.PLAIN, 18));
 		btnNewButton_7.setForeground(Color.WHITE);
@@ -94,11 +104,28 @@ public class FactoryAdmin extends JFrame {
 					dispose();			
 		});
 		
+		btnNewButton_9.addActionListener(e->{
+			FactorySchedFrame.setUserID(userID);
+			FactorySchedFrame a=FactorySchedFrame.getInstance();
+			a.setVisible(true);
+			a.updateorderList();
+			dispose();
+		});
+		
+		 btnNewButton_6.addActionListener(e->{
+			 FactoryOrderFrame.setUserID(userID);
+			 FactoryOrderFrame a=FactoryOrderFrame.getInstance();
+			 a.updateorderList();
+			 a.setVisible(true);
+			 dispose();
+		 });
 		btnNewButton_7.addActionListener(e->{
 			Login a=Login.getInstance();
 			a.setVisible(true);
 			dispose();
 		});
+		
+		
 		
 		
 		

@@ -73,6 +73,7 @@ public class Order implements Serializable {
 		this.ordernumber=s.format(date);
 		this.id="Ord"+s.format(date);
 		this.ordetstate="已保存";
+		this.factoryID="null";
 	}
 	
 	

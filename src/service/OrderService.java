@@ -10,4 +10,5 @@ public interface OrderService extends BaseService {
 	public boolean changeOrder(Order ord) throws IOException ;
 	public Order searchOrder(String id) throws IOException;
 	public List<Order> showOrder() throws IOException;
+	public boolean endOrder(String orderId)  throws IOException;
 }

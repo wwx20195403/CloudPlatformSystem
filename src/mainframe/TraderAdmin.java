@@ -39,7 +39,6 @@ public class TraderAdmin extends JFrame {
 	 * Create the frame.
 	 */
 	public TraderAdmin() {
-		setTitle("经销商: "+userID);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -82,7 +81,7 @@ public class TraderAdmin extends JFrame {
 		btnNewButton_1.addActionListener(e->{
 			TraderOrderFrame.setUserID(userID);
 			TraderOrderFrame a=TraderOrderFrame.getInstance();	
-			a.updateequipmentList();
+			a.updatorderList();
 			a.setVisible(true);
 			dispose();
 		});

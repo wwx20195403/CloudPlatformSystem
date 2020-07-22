@@ -74,7 +74,7 @@ public class EquipmentManageFrame_Fa extends JFrame {
 	 * Create the frame.
 	 */
 	public EquipmentManageFrame_Fa() {
-		setTitle(userID+"的设备管理—工厂");
+		setTitle("设备管理—工厂");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1004, 457);
 		contentPane = new JPanel();

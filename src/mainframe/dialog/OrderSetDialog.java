@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -34,21 +35,35 @@ public class OrderSetDialog extends JDialog {
 	private JComboBox<String> comboBox;
 	private Productcontrollers productController=new Productcontrollers("ProductService");
 	private OrderController orderController=new OrderController("OrderService");
-
+	private Order order; 
 
 	/**
 	 * Create the dialog.
 	 */
-	public OrderSetDialog(String user_ID) {
+	public OrderSetDialog(JFrame frame,String user_ID,Order ord) {
+		super(frame,null,true);
 		setBounds(100, 100, 425, 442);
 		userID=user_ID;
-		setTitle(userID+"的创建订单");
+		order=ord;
+		if(order==null) {
+			setTitle(userID+"的创建订单");
+			}else {
+				setTitle(userID+"的修改订单");
+			}
+		
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		{
-			JLabel lblNewLabel = new JLabel("创建订单");
+			JLabel lblNewLabel	;
+			
+			if(order==null) {
+				lblNewLabel	= new JLabel("创建订单");
+			}else {
+				lblNewLabel	= new JLabel("修改订单");
+			}
+			
 			lblNewLabel.setFont(new Font("宋体", Font.PLAIN, 18));
 			lblNewLabel.setBounds(165, 27, 114, 29);
 			contentPanel.add(lblNewLabel);
@@ -105,22 +120,40 @@ public class OrderSetDialog extends JDialog {
 		JButton btnNewButton = new JButton("确定");
 		btnNewButton.setBounds(288, 334, 93, 23);
 		contentPanel.add(btnNewButton);
-		
-		btnNewButton.addActionListener(e->{
-			if(checkValid()) {
-				try {
-					if(orderController.addOrder(getValid())) {
-						JOptionPane.showMessageDialog(this, "创建成功");
-						dispose();
-					}else {
-						JOptionPane.showMessageDialog(this, "创建失败");
+		if(order==null) {
+			btnNewButton.addActionListener(e->{
+				if(checkValid()) {
+					try {
+						if(orderController.addOrder(getValid())) {
+							JOptionPane.showMessageDialog(this, "创建成功");
+							dispose();
+						}else {
+							JOptionPane.showMessageDialog(this, "创建失败");
+						}
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
 					}
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
 				}
-			}
-		});
+			});
+		}else {
+			btnNewButton.addActionListener(e->{
+				if(checkValid()) {
+					try {
+						if(orderController.changeOrder(getValid())) {
+							JOptionPane.showMessageDialog(this, "修改成功");
+							dispose();
+						}else {
+							JOptionPane.showMessageDialog(this, "修改失败");
+						}
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+			});
+		}
+	
 	}
 	
 	public boolean checkValid() {
@@ -155,7 +188,12 @@ public class OrderSetDialog extends JDialog {
 	}
 	
 	public Order getValid() {
-		Order a=new Order();
+		Order a;
+		if(order==null) {
+			a=new Order();
+		}else {
+			a=order;
+		}
 		a.setDeliverydate(textField_1.getText());
 		a.setTenderdeadline(textField_2.getText());
 		a.setProductnumber(Integer.parseInt(textField.getText()));

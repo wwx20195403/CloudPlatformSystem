@@ -26,4 +26,7 @@ public class OrderController extends BaseController {
 	public List<Order> showOrder() throws IOException{
 		return orderService.showOrder();
 	}
+	public boolean endOrder(String orderId)  throws IOException{
+		return orderService.endOrder(orderId);
+	}
 }

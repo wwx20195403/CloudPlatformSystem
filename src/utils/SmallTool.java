@@ -1,6 +1,7 @@
 package utils;
 
 import java.io.IOException;
+import java.util.List;
 
 import controllers.FactoryControllers;
 import controllers.UserController;
@@ -39,6 +40,26 @@ public class SmallTool {
 		}
 		return use.getUserNumber();
 	}
+	
+	public static String  userNumber_userID(String number) {
+		String a = null;
+		try {
+			List<User> list=userController.showUser();
+			for(User u:list) {
+				if(u.getIsAvailable().equals("true")) {
+					if(u.getUserNumber().equals(number)) {
+						a=u.getId();
+					}
+				}
+			}
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return a;
+	}
+	
 	
 	
 	

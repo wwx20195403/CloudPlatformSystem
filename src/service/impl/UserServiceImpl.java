@@ -18,6 +18,11 @@ public class UserServiceImpl implements UserService {
 	public boolean validate(String id, String password) {
 		FileUtils2<List<User>> fUtils = new FileUtils2<>();
 		List<User> list = fUtils.getData("users.data");
+		if(list == null)
+		{
+			list = new ArrayList<>();
+ 
+		}else {
 		for(User user : list) {
 			if(user.getIsAvailable().equals("true")) {
 				if(user.getId().equals(id)) {
@@ -26,6 +31,7 @@ public class UserServiceImpl implements UserService {
 					}
 				}
 			}
+		}
 		}
 		return false;
 	}
@@ -135,6 +141,8 @@ public class UserServiceImpl implements UserService {
 		}			
 		return false;
 	}
+	
+
 	
 	public List<User> showUser() throws IOException {
 		FileUtils2<List<User>> fUtils = new FileUtils2<>();
