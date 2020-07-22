@@ -7,7 +7,7 @@ public class MyServiceFactory {
 	 public static BaseService createService(String message) {
 			
 	    	BaseService  baseService=null;
-			
+			 
 	    	if ("EquipmentService".equals(message))
 	    		baseService = new EquipmentServiceimpl();
 	    	 	
