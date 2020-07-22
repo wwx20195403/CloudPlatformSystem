@@ -80,11 +80,35 @@ public class FactorySchedFrame extends JFrame {
 		btnNewButton=new JButton("排产");
 		btnNewButton_1=new JButton("完工");
 		btnNewButton_2=new JButton("发货");
+		btnNewButton_3=new JButton("完成");
 		
 		toolBar.add(btnNewButton);
 		toolBar.add(btnNewButton_1);
 		toolBar.add(btnNewButton_2);
+		toolBar.add(btnNewButton_3);
 		
+		btnNewButton_3.addActionListener(e->{
+			Order ord=getOrder();
+			if(ord==null) {
+				
+			}else {
+				if(ord.getOrdetstate().equals("已收货")) {
+					ord.setOrdetstate("订单完成");
+					try {
+						if(orderController.changeOrder(ord)){
+							JOptionPane.showMessageDialog(this, "订单完成");
+							}
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}else {
+					JOptionPane.showMessageDialog(this, "不可进行此操作!");
+				}
+			}
+			updateorderList();
+			
+		});
 		btnNewButton.addActionListener(e->{
 			Order ord=getOrder();
 			if(ord==null) {
@@ -172,7 +196,7 @@ public class FactorySchedFrame extends JFrame {
 			orderList=orderController.showOrder();
 			int i=1;
 			for(Order ord:  orderList) {
-				if(ord.getOrdetstate().equals("中标")||ord.getOrdetstate().equals("已排产")||ord.getOrdetstate().equals("已完工")||ord.getOrdetstate().equals("已发货")) {
+				if(ord.getOrdetstate().equals("中标")||ord.getOrdetstate().equals("已排产")||ord.getOrdetstate().equals("已完工")||ord.getOrdetstate().equals("已发货")||ord.getOrdetstate().equals("已收货")||ord.getOrdetstate().equals("订单完成")) {
 					if(ord.getFactoryID().equals(userNumber)) {
 						//  {"序号","订单编号","产品名称","订购数量","交付日期","投标截止日期","订单状态"};
 						Vector<Object> rowData=new Vector<>();

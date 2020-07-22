@@ -65,6 +65,7 @@ public class TraderOrderFrame extends JFrame {
 		private JToolBar toolBar ;
 		private JButton btnNewButton_3;
 		private JButton btnNewButton_2;
+		private JButton btnNewButton_5;
 		private JTextField textField; 
 
 		private JButton btnNewButton_4;
@@ -99,9 +100,12 @@ public class TraderOrderFrame extends JFrame {
 		btnNewButton = new JButton("新建");			
 		btnNewButton_2=new JButton("发布");
 		btnNewButton_3=new JButton("修改");
+		btnNewButton_5=new JButton("收货");
+		
 		toolBar.add(btnNewButton);
 		toolBar.add(btnNewButton_3);
 		toolBar.add(btnNewButton_2);
+		toolBar.add(btnNewButton_5);
 		btnNewButton_4 =createToolButton("返回经销商管理界面", "back.png");
 		btnNewButton_4.setForeground(Color.white);
 		btnNewButton_4.setBackground(new Color(0,130,228));
@@ -133,6 +137,26 @@ public class TraderOrderFrame extends JFrame {
 				e1.printStackTrace();
 			}
 			
+		});
+		
+		btnNewButton_5.addActionListener(e->{
+			Order a=getOrder();
+			if(a==null) {
+				
+			}else {
+				a.setOrdetstate("已收货");
+				try {
+					if(orderController.changeOrder(a)) {
+						JOptionPane.showMessageDialog(this, "收货成功！");
+					}else {
+						JOptionPane.showMessageDialog(this, "收货失败！");
+					}
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+			updatorderList();
 		});
 		
 		btnNewButton_2.addActionListener(e->{
@@ -241,6 +265,28 @@ public class TraderOrderFrame extends JFrame {
 			try {
 				Order u=orderController.searchOrder(s);
 				if(u.getOrdetstate().equals("已保存")) {
+					return u;
+				}else {
+					JOptionPane.showMessageDialog(this, "不可进行此操作！");
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+		
+		}
+	return null;	
+	}
+	
+	private Order getOrder(){
+		int[] rows = orders.getSelectedRows();
+		for(int i= rows.length-1; i>=0; i--)
+		{
+			String s=(String)ordermodel.getValueAt(rows[i], 1);
+			try {
+				Order u=orderController.searchOrder(s);
+				if(u.getOrdetstate().equals("已发货")) {
 					return u;
 				}else {
 					JOptionPane.showMessageDialog(this, "不可进行此操作！");
