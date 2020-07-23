@@ -20,6 +20,9 @@ import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import java.io.IOException;
+import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.swing.JComboBox;
@@ -175,15 +178,19 @@ public class OrderSetDialog extends JDialog {
 		}
 		if(textField_1.getText().isEmpty())
 		{
-			JOptionPane.showMessageDialog(this, "账号不得为空!");
+			JOptionPane.showMessageDialog(this, "日期不得为空!");
 			return false;
 		}
 		if(textField_2.getText().isEmpty())
 		{
-			JOptionPane.showMessageDialog(this, "账号不得为空!");
+			JOptionPane.showMessageDialog(this, "日期不得为空!");
 			return false;
 		}
 		
+		if(!checkDate(textField_1.getText(), textField_2.getText()).isEmpty()) {
+			JOptionPane.showMessageDialog(this, checkDate(textField_1.getText(), textField_2.getText()));
+			return false;
+		}
 		return true;
 	}
 	
@@ -201,4 +208,30 @@ public class OrderSetDialog extends JDialog {
 		a.setTraderID(SmallTool.userID_userNumber(userID));
 		return a;
 	}
+	
+	public String checkDate(String str1,String str2) {
+		Date a=null;Date b=null;
+		try {
+		SimpleDateFormat s=new SimpleDateFormat( "yyyy-MM-dd");
+			a=s.parse(str1);
+			b=s.parse(str2);
+			Date c=new Date();
+			int result=b.compareTo(a);
+			if(result<=0) {
+				result=b.compareTo(c);
+				if(result>=0) {					
+					return "";
+				}else {
+					return "时间不可以早于今天";
+				}
+				
+			}else {
+				return "交货时间不得早于投标截止时间";
+			}
+		} catch (ParseException e) {
+			return "时间格式错误，正确的格式为\nyyyy-MM-dd";
+		}
+	}
+	
+	
 }

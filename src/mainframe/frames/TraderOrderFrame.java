@@ -66,6 +66,7 @@ public class TraderOrderFrame extends JFrame {
 		private JButton btnNewButton_3;
 		private JButton btnNewButton_2;
 		private JButton btnNewButton_5;
+		private JButton btnNewButton_6;
 		private JTextField textField; 
 
 		private JButton btnNewButton_4;
@@ -100,11 +101,14 @@ public class TraderOrderFrame extends JFrame {
 		btnNewButton = new JButton("新建");			
 		btnNewButton_2=new JButton("发布");
 		btnNewButton_3=new JButton("修改");
+		btnNewButton_6=new JButton("删除");
+		
 		btnNewButton_5=new JButton("收货");
 		
 		toolBar.add(btnNewButton);
 		toolBar.add(btnNewButton_3);
 		toolBar.add(btnNewButton_2);
+		toolBar.add(btnNewButton_6);
 		toolBar.add(btnNewButton_5);
 		btnNewButton_4 =createToolButton("返回经销商管理界面", "back.png");
 		btnNewButton_4.setForeground(Color.white);
@@ -195,6 +199,23 @@ public class TraderOrderFrame extends JFrame {
 				});
 			}
 		});
+		btnNewButton_6.addActionListener(e->{
+			Order a=getChange();
+			if(a==null) {
+				
+			}else {
+				a.setOrdetstate("已删除");
+				try {
+					if(orderController.changeOrder(a)){
+						JOptionPane.showMessageDialog(this, "删除成功");
+					}
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				updatorderList();
+			}
+		});
 		
 		btnNewButton_4.addActionListener(e->{
 			
@@ -222,17 +243,19 @@ public class TraderOrderFrame extends JFrame {
 			int i=1;
 			for(Order ord:  orderList) {
 				//  {"序号","订单编号","产品名称","订购数量","交付日期","投标截止日期","订单状态"};
-				if(ord.getTraderID().equals(usernumber)) {
-					Vector<Object> rowData=new Vector<>();
-					rowData.add(i);
-					rowData.add(ord.getId());
-					rowData.add(ord.getProductname());
-					rowData.add(ord.getProductnumber());
-					rowData.add(ord.getDeliverydate());
-					rowData.add(ord.getTenderdeadline());
-					rowData.add(ord.getOrdetstate());
-					i++;
-					ordermodel.addRow(rowData);
+				if(!ord.getOrdetstate().equals("已删除")) {
+					if(ord.getTraderID().equals(usernumber)) {
+						Vector<Object> rowData=new Vector<>();
+						rowData.add(i);
+						rowData.add(ord.getId());
+						rowData.add(ord.getProductname());
+						rowData.add(ord.getProductnumber());
+						rowData.add(ord.getDeliverydate());
+						rowData.add(ord.getTenderdeadline());
+						rowData.add(ord.getOrdetstate());
+						i++;
+						ordermodel.addRow(rowData);
+				}
 				}
 			}
 			

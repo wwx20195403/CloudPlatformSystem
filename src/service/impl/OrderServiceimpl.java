@@ -12,15 +12,7 @@ import service.OrderService;
 import utils.FileUtils2;
 
 public class OrderServiceimpl implements OrderService {
-	public static void main(String[] args) {
-		OrderServiceimpl a=new OrderServiceimpl();
-		try {
-			System.out.println(a.showOrder());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+
 	@Override
 	public boolean addOrder(Order order) throws IOException {
 		// TODO Auto-generated method stub
@@ -153,5 +145,7 @@ public class OrderServiceimpl implements OrderService {
 		}
 		return false;
 	}
+	
+
 
 }

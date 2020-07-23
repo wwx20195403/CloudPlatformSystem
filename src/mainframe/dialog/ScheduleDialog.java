@@ -66,10 +66,10 @@ public class ScheduleDialog extends JDialog {
 		lblNewLabel_1.setBounds(56, 37, 56, 20);
 		getContentPane().add(lblNewLabel_1);
 		
-		JLabel lblNewLabel_2 = new JLabel("");
+		JLabel lblNewLabel_2 = new JLabel();
 		lblNewLabel_2.setBounds(137, 36, 241, 23);
 		getContentPane().add(lblNewLabel_2);
-		
+
 		JLabel lblNewLabel_3 = new JLabel("开始时间");
 		lblNewLabel_3.setBounds(56, 139, 54, 15);
 		getContentPane().add(lblNewLabel_3);
@@ -110,6 +110,16 @@ public class ScheduleDialog extends JDialog {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
+		
+		String aa=(String)comboBox.getSelectedItem();
+		try {
+			Equipment eq=equipmentController.searchEquipment(aa);
+			lblNewLabel_2.setText(eq.getName());
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		comboBox.addActionListener(e->{
 			String a=(String)comboBox.getSelectedItem();
 			try {

@@ -47,7 +47,6 @@ public class UserServiceImpl implements UserService {
 		}
 		return false;
 	}
-
 	@Override
 	public boolean addUser(User user) throws IOException {
 		// TODO Auto-generated method stub
@@ -75,7 +74,6 @@ public class UserServiceImpl implements UserService {
 		return true;
 
 }
-
 	@Override
 	public boolean deleteUser(String id) throws IOException {
 		FileUtils2<List<User>> fUtils = new FileUtils2<>();
@@ -136,16 +134,27 @@ public class UserServiceImpl implements UserService {
 			for(User use : list) {
 				if(use.getIsAvailable().equals("true")) {
 					if(user.getId().equals(use.getId())) {
-					if(new FactoryServiceimpl().changeFactory(user)) {
-						use.setName(user.getName());
-						use.setPassword(user.getPassword());
-						use.setPhone(user.getPhone());
-						use.setType(use.getType());
-						use.setFacdes(user.getFacdes());
-						fUtils.writeData(list, "users.data");
-										
-						return true;
-					}
+						if(user.getType().equals("经销商")) {
+							use.setName(user.getName());
+							use.setPassword(user.getPassword());
+							use.setPhone(user.getPhone());
+							use.setType(use.getType());
+							use.setFacdes(user.getFacdes());
+							fUtils.writeData(list, "users.data");
+											
+							return true;
+						}else {
+							if(new FactoryServiceimpl().changeFactory(user)) {
+								use.setName(user.getName());
+								use.setPassword(user.getPassword());
+								use.setPhone(user.getPhone());
+								use.setType(use.getType());
+								use.setFacdes(user.getFacdes());
+								fUtils.writeData(list, "users.data");
+												
+								return true;
+							}
+						}
 					}
 					
 				}

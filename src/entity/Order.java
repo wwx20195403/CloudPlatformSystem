@@ -16,7 +16,7 @@ public class Order implements Serializable {
 	private String  traderID;
 	
 
-	
+
 	public String getId() {
 		return id;
 	}

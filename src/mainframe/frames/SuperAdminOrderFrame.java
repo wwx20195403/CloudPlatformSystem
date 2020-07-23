@@ -87,7 +87,9 @@ public class SuperAdminOrderFrame extends JFrame {
 			orderList=orderController.showOrder();
 			int i=1;
 			for(Order ord:  orderList) {
-				//  {"序号","订单编号","产品名称","订购数量","交付日期","投标截止日期","订单状态"};
+				if(!ord.getOrdetstate().equals("已删除")) {
+				if(!ord.getOrdetstate().equals("已保存")) {
+					//  {"序号","订单编号","产品名称","订购数量","交付日期","投标截止日期","订单状态"};
 					Vector<Object> rowData=new Vector<>();
 					rowData.add(i);
 					rowData.add(ord.getId());
@@ -98,8 +100,9 @@ public class SuperAdminOrderFrame extends JFrame {
 					rowData.add(ord.getOrdetstate());
 					i++;
 					ordermodel.addRow(rowData);
+				}
 			}
-			
+			}	
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

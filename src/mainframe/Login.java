@@ -91,39 +91,38 @@ public class Login extends JFrame {
 		lblNewLabel_2.setBounds(175, 0, 204, 78);
 		contentPane.add(lblNewLabel_2);
 		
-		JButton btnNewButton_1 = new JButton("超级管理员");
-		btnNewButton_1.setBounds(0, 0, 111, 29);
-		contentPane.add(btnNewButton_1);
-		
-		btnNewButton_1.addActionListener(e->{
-			SyperAdmin a=SyperAdmin.getInstance();
-			a.setVisible(true);
-			dispose();
-		});
-		
+	
 		btnNewButton.addActionListener(e->{
 			if(check()) {
 				String userID=textField_1.getText();
 				String password=String.valueOf(passwordField.getPassword());
-				if(userController.validate(userID, password)) {
-					try {
-						User u=userController.searchUser(userID);
-						if(u.getType().equals("云工厂管理员")){	
-							FactoryAdmin.setUserID(u.getId());
-							FactoryAdmin a=FactoryAdmin.getInstance();
-							a.setVisible(true);
-							dispose();
-							}else if(u.getType().equals("经销商")){
-								TraderAdmin.setUserID(u.getId());
-								TraderAdmin a=TraderAdmin.getInstance();
+				if(userID.equals("admin")&password.equals("123456")) {
+					SyperAdmin a=SyperAdmin.getInstance();
+					a.setVisible(true);
+					dispose();
+				}else {
+				
+					if(userController.validate(userID, password)) {
+						try {
+							User u=userController.searchUser(userID);
+							if(u.getType().equals("云工厂管理员")){	
+								FactoryAdmin.setUserID(u.getId());
+								FactoryAdmin a=FactoryAdmin.getInstance();
 								a.setVisible(true);
 								dispose();
-							}
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+								}else if(u.getType().equals("经销商")){
+									TraderAdmin.setUserID(u.getId());
+									TraderAdmin a=TraderAdmin.getInstance();
+									a.setVisible(true);
+									dispose();
+								}
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 
+					}
+				
 				}
 				textField_1.setText("");
 				passwordField.setText("");
