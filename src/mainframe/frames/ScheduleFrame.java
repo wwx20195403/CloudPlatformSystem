@@ -86,7 +86,7 @@ public class ScheduleFrame extends JFrame {
 		
 		
 		JButton btnNewButton = new JButton("添加设备");
-		btnNewButton.setBounds(24, 73, 81, 23);
+		btnNewButton.setBounds(24, 73, 99, 23);
 		contentPane.add(btnNewButton);
 		
 		btnNewButton.addActionListener(e->{
@@ -129,7 +129,7 @@ public class ScheduleFrame extends JFrame {
 			
 		});
 		JButton btnNewButton_1 = new JButton("删除设备");
-		btnNewButton_1.setBounds(133, 73, 93, 23);
+		btnNewButton_1.setBounds(133, 73, 99, 21);
 		contentPane.add(btnNewButton_1);
 		
 		JButton btnNewButton_2 = new JButton("确定");
@@ -163,7 +163,6 @@ public class ScheduleFrame extends JFrame {
 				if(sc.getOrderID().equals(ord.getId())) {
 						// {"设备编号","开始时间","结束时间"};
 						Vector<Object> rowData=new Vector<>();
-						rowData.add(i);
 						rowData.add(sc.getEqipmentID());
 						rowData.add(sc.getStarttime());
 						rowData.add(sc.getEndtime());

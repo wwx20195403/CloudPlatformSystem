@@ -186,6 +186,12 @@ public class EditUserDialog extends JDialog {
 				textField_5.setEditable(true);
 			}
 		});
+		if(user!=null) {
+			if(user.getType().equals("经销商")) {
+				textField_4.setEditable(false);
+				textField_5.setEditable(false);
+			}
+		}
 		
 		setVisible(true);  // 放在最后
 	}

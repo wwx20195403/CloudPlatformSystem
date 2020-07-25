@@ -3,6 +3,9 @@ package mainframe.dialog;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -170,9 +173,36 @@ public class ScheduleDialog extends JDialog {
 			JOptionPane.showMessageDialog(this, "结束时间不得为空!");
 			return false;
 		}
-
+		if(!checkDate(textField.getText(), textField_1.getText()).isEmpty()) {
+			JOptionPane.showMessageDialog(this, checkDate(textField.getText(), textField_1.getText()));
+			return false;
+		}
 					
 		return true;
+	}
+	
+	public String checkDate(String str1,String str2) {
+		Date a=null;Date b=null;
+		try {
+		SimpleDateFormat s=new SimpleDateFormat( "yyyy-MM-dd HH:mm");
+			a=s.parse(str1);
+			b=s.parse(str2);
+			Date c=new Date();
+			int result=b.compareTo(a);
+			if(result>=0) {
+				result=a.compareTo(c);
+				if(result>=0) {					
+					return "";
+				}else {
+					return "时间不可以早于今天";
+				}
+				
+			}else {
+				return "结束不得早于开始时间";
+			}
+		} catch (ParseException e) {
+			return "时间格式错误，正确的格式为\nyyyy-MM-dd HH:mm";
+		}
 	}
 
 }
